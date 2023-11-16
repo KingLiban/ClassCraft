@@ -14,7 +14,7 @@ public class Major {
 		studentID = iD;
 		studentEmail = email;
 		totalCredit = credits;
-		String[] classes = {"Physics I","Physics II","Chemistry I", "Chemistry II", "English I", "English II", "Computer Science I", "Computer Science II", "Discrete Mathematics", "CO-OP 1", "CO-OP 2"};
+		String[] classes = {"Physics I","Physics II","Chemistry I", "Chemistry II", "English I", "English II", "Computer Science I", "Computer Science II", "Discrete Mathematics", "COOP 1", "COOP 2"};
 		Collections.addAll(requiredClasses, classes);
 		
 	}
