@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 public class Major {
+
+	// test to see if you can pull
 	private int studentYear;
 	private String studentName;
 	private int studentID;
