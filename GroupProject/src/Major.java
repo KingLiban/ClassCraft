@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 public class Major {
 
-	// test to see if you can pull
+	// can you really git pull though?
 	private int studentYear;
 	private String studentName;
 	private int studentID;
