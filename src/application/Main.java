@@ -68,7 +68,15 @@ public class Main extends Application {
 		nextButton.setText("Next");
 		grid.add(nextButton, 0, 5);
 		nextButton.setOnAction(e->{
-			stage.setScene(scene2);
+			if(!validateName(userN)) {
+				
+			}else if(!validateStudentYear(studY)) {
+				
+			}else if(!validateEmail(email)) {
+				
+			}else {
+				stage.setScene(scene2);
+			}
 			});
 		
 		Button someButton = new Button();
