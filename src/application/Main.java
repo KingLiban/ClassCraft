@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 public class Main extends Application {
 	private static Scene scene;
     private static Scene scene2;
+    private static String ERR_;
     @Override
     public void start(Stage stage) throws IOException {
     	stage.setTitle("Course Generator");
