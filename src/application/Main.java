@@ -41,16 +41,19 @@ public class Main extends Application {
 		Label userName = new Label("Name:");
 		grid.add(userName, 0, 1);
 		TextField userTextField = new TextField();
+		String userN = userTextField.getText();
 		grid.add(userTextField, 1, 1);
 		
 		Label stuY = new Label("Student Year:");
 		grid.add(stuY, 0, 2);
 		TextField studYear = new TextField();
+		String studY = studYear.getText();
 		grid.add(studYear, 1, 2);
 		
 		Label witEmail = new Label("WIT Email:");
 		grid.add(witEmail, 0, 3);
 		TextField userWitEmail = new TextField();
+		String email = userWitEmail.getText();
 		grid.add(userWitEmail, 1, 3);
 		
 		String majors[] =
@@ -58,7 +61,7 @@ public class Main extends Application {
                              "Data Science", "CyberSecurity", "Applied Mathematics" };
 		Label major = new Label("Your Major:");
 		grid.add(major, 0, 4);
-		ComboBox combo_box = new ComboBox(FXCollections.observableArrayList(majors));		
+		ComboBox combo_box = new ComboBox(FXCollections.observableArrayList(majors));
 		grid.add(combo_box, 1, 4);
 		
 		Button nextButton = new Button();
