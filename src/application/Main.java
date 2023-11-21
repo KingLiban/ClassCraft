@@ -92,7 +92,12 @@ public class Main extends Application {
 				confirm.setContentText(CONFIRM_ENTRIES);
 				Optional<ButtonType> result = confirm.showAndWait();
 				if(result.isPresent() && result.get() == ButtonType.OK) {
-					stage.setScene(scene2);
+					try {
+						stage.setScene(Scene2.createScene2(stage));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			});
