@@ -21,7 +21,10 @@ import javafx.scene.text.Text;
 
 
 public class Main extends Application {
+	private static Scene scene;
+    private static Scene scene2;
     private static final String ERR_USERNAME = "A proper name must be provided (Numbers must NOT be included).";
+    private static final String ERR_STUDENT_YEAR = "An integer between 1 and 4 (inclusive) must be enter for student year.";
     private static final String ERR_EMAIL = "Your WIT Email must be in the following Format: username@wit.edu (replace with your own WIT Email).";
 	private static final String ERR_COMBO_BOX1 = "Please select a student year out of the ones provided";
 
@@ -122,6 +125,13 @@ public class Main extends Application {
 		alert.setContentText(ERR_USERNAME);
 		alert.showAndWait();
     }
+    public static void invalidYearAlert() {
+    	Alert alert2 = new Alert(AlertType.ERROR);
+		alert2.setTitle("Please try again");
+		alert2.setHeaderText("Incorrect input for Student Year");
+		alert2.setContentText(ERR_STUDENT_YEAR);
+		alert2.showAndWait();
+    }
     public static void invalidEmailAlert() {
     	Alert alert3 = new Alert(AlertType.ERROR);
 		alert3.setTitle("Please try again");
@@ -136,7 +146,6 @@ public class Main extends Application {
 		alert4.setContentText(ERR);
 		alert4.showAndWait();
     }
-
     public static boolean validEmail(String email) {
     	if (email.length() <= 8) {
     		return false;
