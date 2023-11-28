@@ -45,7 +45,7 @@ public class Scene2 {
 		try{
 			File file;
 	        if (major.equals("Computer Science")) {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\CompSci.txt");
+	            file = new File("/Users/davudazizov/Documents/GitHub/comp1050-f23-projects-group-6/src/application/CompSci.txt");
 	        } else if (major.equals("Information Technology")) {
 	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\InformationTech.txt");
 	        } else if (major.equals("Computer Networking")) {
