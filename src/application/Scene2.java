@@ -33,9 +33,9 @@ public class Scene2 {
     public static Scene createScene2(Stage stage, String major) {
 //    	stage.setTitle("Course Generator");
 		
-    	VBox layout = new VBox(40);
+    	VBox layout = new VBox(10);
     	layout.setAlignment(Pos.CENTER);
-		Text sceneTitle = new Text("Now, We ask That You Select The Classes You have Completed");
+		Text sceneTitle = new Text("Now, We ask that you select the classes you have completed");
 		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));	
 		layout.getChildren().add(sceneTitle);
 //		String majors[] =
@@ -79,7 +79,7 @@ public class Scene2 {
 
 	    layout.getChildren().add(nextButton);
 
-	    Scene scene = new Scene(layout, 700, 480);
+	    Scene scene = new Scene(layout, 700, 680);
 	    return scene;
     }
 //    public static void checkBoxConstructor(String fileName) {
