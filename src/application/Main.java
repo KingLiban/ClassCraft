@@ -36,8 +36,7 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		
-		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following Information"
-									+ " to begin:");
+		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following information to begin:");
 		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(sceneTitle, 0, 0, 2, 1);
 
@@ -47,7 +46,7 @@ public class Main extends Application {
 		grid.add(userTextField, 1, 1);
 
 		String[] years = {
-				"Freshman", "Sophmore", "Junior", "Senior"
+				"Freshman", "Sophomore", "Junior", "Senior"
 		};
 		Label studYear = new Label("Your Year:");
 		grid.add(studYear, 0, 2);
@@ -105,7 +104,7 @@ public class Main extends Application {
 			}
 		);
 
-		Scene scene = new Scene(grid, 700, 480);
+		Scene scene = new Scene(grid, 700, 680);
 		stage.setScene(scene);
 		stage.show();
     }
