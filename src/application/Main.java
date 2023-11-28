@@ -72,7 +72,6 @@ public class Main extends Application {
 		grid.add(nextButton, 0, 5);
 		nextButton.setOnAction(event -> {
 				String userN = userTextField.getText();
-				String studY = studYear.getText();
 				String email = userWitEmail.getText();
 				if (!validName(userN)) {
 					invalidNameAlert();
@@ -105,13 +104,11 @@ public class Main extends Application {
     	if (name.isEmpty()) {
     		return false;
     	}
-    	name = name.toLowerCase();
-    	for (int i = 0; i < name.length(); i++) {
-    		char c = name.charAt(i);
-    		if (!(c >= 'a' && c <= 'z')) {
-    			return false;
-    		}
-    	}
+    	for (char c : name.toCharArray()) {
+			if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+				return false;
+			}
+		}
     	return true;
     }
 
