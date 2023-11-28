@@ -27,13 +27,13 @@ import javafx.scene.text.Text;
 public class Main extends Application {
 	private static Scene scene;
     private static Scene scene2;
-    private static final String ERR_USERNAME = "A Proper Name Must Be Provided (Numbers Must NOT Be Included).";
-    private static final String ERR_STUDENTYEAR = "An Integer between 1 and 4 (Inclusive) must be enter for Student Year.";
-    private static final String ERR_EMAIL = "Your WIT EMAIL Must be in the following Format: username@wit.edu (replace with your own WIT Email).";
-    private static final String ERR_COMBOBOX = "Please Select a Major Out of the Ones Provided (As Of Now, Only the Ones Listed are Avaliable).";
-    private static final String CONFIRM_ENTRIES = "Know That You Won't Be Able to Return This Page. If You Are Ready To Move On, Click 'OK', Otherwise, Click 'cancel' And Look Over your Entries.";
+    private static final String ERR_USERNAME = "A proper name must be provided (Numbers must NOT be included).";
+    private static final String ERR_STUDENTYEAR = "An integer between 1 and 4 (inclusive) must be enter for student year.";
+    private static final String ERR_EMAIL = "Your WIT Email must be in the following Format: username@wit.edu (replace with your own WIT Email).";
+    private static final String ERR_COMBOBOX = "Please select a major out of the ones provided (As of now, only the ones listed are avaliable).";
+    private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
     	stage.setTitle("Course Generator");
 		
 		GridPane grid = new GridPane();
@@ -42,8 +42,8 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		
-		Text scenetitle = new Text("Hello Wentworth! Please Enter the Following Information"
-									+ " to Begin:");
+		Text scenetitle = new Text("Hello Wentworth! Please enter the following Information"
+									+ " to begin:");
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));	
 		grid.add(scenetitle, 0, 0, 2, 1);
 		
@@ -67,7 +67,7 @@ public class Main extends Application {
                              "Data Science", "CyberSecurity", "Applied Mathematics" };
 		Label major = new Label("Your Major:");
 		grid.add(major, 0, 4);
-		ComboBox combo_box = new ComboBox(FXCollections.observableArrayList(majors));
+		ComboBox<String> combo_box = new ComboBox(FXCollections.observableArrayList(majors));
 		grid.add(combo_box, 1, 4);
 		
 		Button nextButton = new Button();
@@ -86,30 +86,26 @@ public class Main extends Application {
 			} else if(combo_box.getSelectionModel().isEmpty()){
 				InvalidSelection();
 			} else {
+			    String userSelection = combo_box.getValue();
 		    	Alert confirm = new Alert(AlertType.CONFIRMATION);
 				confirm.setTitle("Confirmation");
-				confirm.setHeaderText("Are You Sure You Wish to Move On?");
+				confirm.setHeaderText("Are you sure you wish to move on?");
 				confirm.setContentText(CONFIRM_ENTRIES);
 				Optional<ButtonType> result = confirm.showAndWait();
 				if(result.isPresent() && result.get() == ButtonType.OK) {
-					try {
-						stage.setScene(Scene2.createScene2(stage));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					stage.setScene(Scene2.createScene2(stage,userSelection));
 				}
 			}
-			});
+			}
+		);
 		
-		Button someButton = new Button();
-		someButton.setText("something");
+//		Button someButton = new Button();
+//		someButton.setText("something");
 //		Button goBackButton = new Button();
 //		goBackButton.setText("Go Back");
-		
-		StackPane layout2 = new StackPane();
-		layout2.getChildren().add(someButton);
-		scene2 = new Scene(layout2,600,300);
+//		StackPane layout2 = new StackPane();
+//		layout2.getChildren().add(someButton);
+//		scene2 = new Scene(layout2,600,300);
 		Scene scene = new Scene(grid, 700, 480);
 		stage.setScene(scene);
 		stage.show();
@@ -137,29 +133,29 @@ public class Main extends Application {
 //    }
     public static void InvalidNameAlert() {
     	Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Please Try Again");
-		alert.setHeaderText("Incorrect Input For Name");
+		alert.setTitle("Please try again");
+		alert.setHeaderText("Incorrect input for Name");
 		alert.setContentText(ERR_USERNAME);
 		alert.showAndWait();
     }
     public static void InvalidYearAlert() {
     	Alert alert2 = new Alert(AlertType.ERROR);
-		alert2.setTitle("Please Try Again");
-		alert2.setHeaderText("Incorrect Input For Student Year");
+		alert2.setTitle("Please try again");
+		alert2.setHeaderText("Incorrect input for Student Year");
 		alert2.setContentText(ERR_STUDENTYEAR);
 		alert2.showAndWait();
     }
     public static void InvalidEmailAlert() {
     	Alert alert3 = new Alert(AlertType.ERROR);
-		alert3.setTitle("Please Try Again");
-		alert3.setHeaderText("Incorrect Input For WIT Email");
+		alert3.setTitle("Please try again");
+		alert3.setHeaderText("Incorrect input for WIT Email");
 		alert3.setContentText(ERR_EMAIL);
 		alert3.showAndWait();
     }
     public static void InvalidSelection() {
     	Alert alert4 = new Alert(AlertType.ERROR);
 		alert4.setTitle("Please Try Again");
-		alert4.setHeaderText("No Selection Made");
+		alert4.setHeaderText("No selection made");
 		alert4.setContentText(ERR_COMBOBOX);
 		alert4.showAndWait();
     }
