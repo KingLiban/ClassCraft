@@ -26,7 +26,9 @@ public class Main extends Application {
     private static final String ERR_USERNAME = "A proper name must be provided (Numbers must NOT be included).";
     private static final String ERR_STUDENT_YEAR = "An integer between 1 and 4 (inclusive) must be enter for student year.";
     private static final String ERR_EMAIL = "Your WIT Email must be in the following Format: username@wit.edu (replace with your own WIT Email).";
-    private static final String ERR_COMBO_BOX = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
+	private static final String ERR_COMBO_BOX1 = "Please select a student year out of the ones provided";
+
+	private static final String ERR_COMBO_BOX2 = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
     @Override
     public void start(Stage stage) {
@@ -37,7 +39,7 @@ public class Main extends Application {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		
-		Text sceneTitle = new Text("Hello Wentworth! Please enter the following Information"
+		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following Information"
 									+ " to begin:");
 		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(sceneTitle, 0, 0, 2, 1);
@@ -46,12 +48,14 @@ public class Main extends Application {
 		grid.add(userName, 0, 1);
 		TextField userTextField = new TextField();
 		grid.add(userTextField, 1, 1);
-		
-		Label stuY = new Label("Student Year:");
-		grid.add(stuY, 0, 2);
-		TextField studYear = new TextField();
-		grid.add(studYear, 1, 2);
-		
+
+		String[] years = {
+				"Freshman", "Sophmore", "Junior", "Senior"
+		};
+		Label studYear = new Label("Your Year:");
+		grid.add(studYear, 0, 2);
+		ComboBox<String> comboBox1 = new ComboBox<>(FXCollections.observableArrayList(years));
+		grid.add(comboBox1, 1, 2);
 		Label witEmail = new Label("WIT Email:");
 		grid.add(witEmail, 0, 3);
 		TextField userWitEmail = new TextField();
@@ -63,8 +67,8 @@ public class Main extends Application {
 		Label major = new Label("Your Major:");
 		grid.add(major, 0, 4);
 
-		ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(majors));
-		grid.add(comboBox, 1, 4);
+		ComboBox<String> comboBox2 = new ComboBox<>(FXCollections.observableArrayList(majors));
+		grid.add(comboBox2, 1, 4);
 		
 		Button nextButton = new Button();
 		nextButton.setText("Next");
@@ -75,14 +79,14 @@ public class Main extends Application {
 				String email = userWitEmail.getText();
 				if (!validName(userN)) {
 					invalidNameAlert();
-				} else if (!validStudentYear(studY)) {
-					invalidYearAlert();
+				} else if (comboBox1.getSelectionModel().isEmpty()) {
+					invalidSelection(ERR_COMBO_BOX1);
 				} else if (!validEmail(email)) {
 					invalidEmailAlert();
-				} else if (comboBox.getSelectionModel().isEmpty()) {
-					invalidSelection();
+				} else if (comboBox2.getSelectionModel().isEmpty()) {
+					invalidSelection(ERR_COMBO_BOX2);
 				} else {
-					String userSelection = comboBox.getValue();
+					String userSelection = comboBox2.getValue();
 					Alert confirm = new Alert(AlertType.CONFIRMATION);
 					confirm.setTitle("Confirmation");
 					confirm.setHeaderText("Are you sure you wish to move on?");
@@ -135,24 +139,25 @@ public class Main extends Application {
 		alert3.setContentText(ERR_EMAIL);
 		alert3.showAndWait();
     }
-    public static void invalidSelection() {
+    public static void invalidSelection(String ERR) {
     	Alert alert4 = new Alert(AlertType.ERROR);
 		alert4.setTitle("Please Try Again");
 		alert4.setHeaderText("No selection made");
-		alert4.setContentText(ERR_COMBO_BOX);
+		alert4.setContentText(ERR);
 		alert4.showAndWait();
     }
-    public static boolean validStudentYear(String y) {
-    	if (y.isEmpty()) {
-    		return false;
-    	}
-    	try {
-    		int year = Integer.parseInt(y);
-            return year >= 1 && year <= 4;
-        } catch (NumberFormatException e) {
-    		return false;
-    	}
-    }
+
+    //public static boolean validStudentYear() {
+//    	if (y.isEmpty()) {
+//    		return false;
+//    	}
+//    	try {
+//    		int year = Integer.parseInt(y);
+//            return year >= 1 && year <= 4;
+//        } catch (NumberFormatException e) {
+//    		return false;
+//    	}
+   // }
     public static boolean validEmail(String email) {
     	if (email.length() <= 8) {
     		return false;
