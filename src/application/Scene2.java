@@ -44,19 +44,20 @@ public class Scene2 {
 //		ArrayList<String> classes = new ArrayList<>();
 		try{
 			File file;
+			file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\CompSci.txt");
 	        if (major.equals("Computer Science")) {
-	            file = new File("src/application/CompSci.txt");
+	            //file = new File("src/application/CompSci.txt");
 	        	//file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\CompSci.txt");
 	        } else if (major.equals("Information Technology")) {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\InformationTech.txt");
+	            //file = new File("src/application/InformationTech.txt");
 	        } else if (major.equals("Computer Networking")) {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\CompNetworking.txt");
+	            //file = new File("src/application/CompNetworking.txt");
 	        } else if (major.equals("Data Science")) {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\DataScience.txt");
+	            //file = new File("src/application/DataScience.txt");
 	        } else if (major.equals("CyberSecurity")) {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\CyberSecurity.txt");
+	            //file = new File("src/application/CyberSecurity.txt");
 	        } else {
-	            file = new File("C:\\Users\\ayyou\\Documents\\GitHub\\comp1050-f23-projects-group-6\\src\\application\\Math.txt");
+	            //file = new File("src/application/Math.txt");
 	        }
 	        
 			Scanner console = new Scanner(file);
