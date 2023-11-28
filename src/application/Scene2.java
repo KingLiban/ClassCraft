@@ -35,9 +35,9 @@ public class Scene2 {
 		
     	VBox layout = new VBox(40);
     	layout.setAlignment(Pos.CENTER);
-		Text scenetitle = new Text("Now, We ask That You Select The Classes You have Completed");
-		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));	
-		layout.getChildren().add(scenetitle);
+		Text sceneTitle = new Text("Now, We ask That You Select The Classes You have Completed");
+		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));	
+		layout.getChildren().add(sceneTitle);
 //		String majors[] =
 //            { "Computer Science", "Information Technology", "Computer Networking",
 //                             "Data Science", "CyberSecurity", "Applied Mathematics" };
