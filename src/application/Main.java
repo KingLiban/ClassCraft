@@ -146,18 +146,6 @@ public class Main extends Application {
 		alert4.setContentText(ERR);
 		alert4.showAndWait();
     }
-
-    //public static boolean validStudentYear() {
-//    	if (y.isEmpty()) {
-//    		return false;
-//    	}
-//    	try {
-//    		int year = Integer.parseInt(y);
-//            return year >= 1 && year <= 4;
-//        } catch (NumberFormatException e) {
-//    		return false;
-//    	}
-   // }
     public static boolean validEmail(String email) {
     	if (email.length() <= 8) {
     		return false;
