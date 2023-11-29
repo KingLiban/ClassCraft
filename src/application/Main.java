@@ -26,6 +26,7 @@ public class Main extends Application {
 	private static final String ERR_COMBO_BOX1 = "Please select a student year out of the ones provided";
 
 	private static final String ERR_COMBO_BOX2 = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
+	private static final String ERR_SEMESTER = "Please select your current semester out of the ones provided";
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
     @Override
     public void start(Stage stage) {
@@ -53,30 +54,40 @@ public class Main extends Application {
 		grid.add(studYear, 0, 2);
 		ComboBox<String> comboBox1 = new ComboBox<>(FXCollections.observableArrayList(years));
 		grid.add(comboBox1, 1, 2);
+		
+		String[] seasons = {
+				"Fall", "Spring", "Summer"
+		};
+		Label  season = new Label("Current Semester:");
+		grid.add(season, 0, 3);
+		ComboBox<String> choicesOfSeasons = new ComboBox<>(FXCollections.observableArrayList(seasons));
+		grid.add(choicesOfSeasons, 1, 3);
+		
 		Label witEmail = new Label("WIT Email:");
-		grid.add(witEmail, 0, 3);
+		grid.add(witEmail, 0, 4);
 		TextField userWitEmail = new TextField();
-		grid.add(userWitEmail, 1, 3);
+		grid.add(userWitEmail, 1, 4);
 		
 		String[] majors = {
 				"Computer Science", "Information Technology", "Computer Networking", "Data Science", "CyberSecurity", "Applied Mathematics"
 		};
 		Label major = new Label("Your Major:");
-		grid.add(major, 0, 4);
-
+		grid.add(major, 0, 5);
 		ComboBox<String> comboBox2 = new ComboBox<>(FXCollections.observableArrayList(majors));
-		grid.add(comboBox2, 1, 4);
+		grid.add(comboBox2, 1, 5);
 		
 		Button nextButton = new Button();
 		nextButton.setText("Next");
-		grid.add(nextButton, 0, 5);
+		grid.add(nextButton, 0, 6);
 		nextButton.setOnAction(event -> {
 				String userN = userTextField.getText();
 				String email = userWitEmail.getText();
 				if (!validName(userN)) {
 					invalidNameAlert();
 				} else if (comboBox1.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_COMBO_BOX1);
+					invalidSelection(ERR_COMBO_BOX1); 
+				} else if(choicesOfSeasons.getSelectionModel().isEmpty()) {
+					invalidSelection(ERR_SEMESTER);
 				} else if (!validEmail(email)) {
 					invalidEmailAlert();
 				} else if (comboBox2.getSelectionModel().isEmpty()) {
