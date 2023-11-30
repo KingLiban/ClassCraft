@@ -79,19 +79,19 @@ public class Main extends Application {
 		nextButton.setText("Next");
 		grid.add(nextButton, 0, 6);
 		nextButton.setOnAction(event -> {
-				String userN = userTextField.getText();
-				String email = userWitEmail.getText();
-				if (!validName(userN)) {
-					invalidNameAlert();
-				} else if (studentYear.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_STUDENT_YEAR); 
-				} else if(choicesOfSeasons.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_SEMESTER);
-				} else if (!validEmail(email)) {
-					invalidEmailAlert();
-				} else if (comboBox2.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_MAJOR);
-				} else {
+//				String userN = userTextField.getText();
+//				String email = userWitEmail.getText();
+//				if (!validName(userN)) {
+//					invalidNameAlert();
+//				} else if (studentYear.getSelectionModel().isEmpty()) {
+//					invalidSelection(ERR_STUDENT_YEAR); 
+//				} else if(choicesOfSeasons.getSelectionModel().isEmpty()) {
+//					invalidSelection(ERR_SEMESTER);
+//				} else if (!validEmail(email)) {
+//					invalidEmailAlert();
+//				} else if (comboBox2.getSelectionModel().isEmpty()) {
+//					invalidSelection(ERR_MAJOR);
+//				} else {
 					Alert confirm = new Alert(AlertType.CONFIRMATION);
 					confirm.setTitle("Confirmation");
 					confirm.setHeaderText("Are you sure you wish to move on?");
@@ -101,7 +101,7 @@ public class Main extends Application {
 						StudentInfo userEntries = new StudentInfo(userTextField.getText(),choicesOfSeasons.getValue(),studentYear.getValue(),userWitEmail.getText(), comboBox2.getValue());
 						stage.setScene(Scene2.createScene2(stage, userEntries));
 					}
-				}
+//				}
 			}
 		);
 

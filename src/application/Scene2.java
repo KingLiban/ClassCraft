@@ -36,23 +36,23 @@ public class Scene2 {
         ArrayList<String> selectedClasses = new ArrayList<>();
         ArrayList<String> unselectedClasses = new ArrayList<>();
 
-        try {
-            File file;
-            if (student.getMajor().equals("Computer Science")) {
-                file = new File("src/application/CompSci.txt");
-            } else if (student.getMajor().equals("Information Technology")) {
-                file = new File("src/application/InformationTech.txt");
-            } else if (student.getMajor().equals("Computer Networking")) {
-                file = new File("src/application/CompNetworking.txt");
-            } else if (student.getMajor().equals("Data Science")) {
-                file = new File("src/application/DataScience.txt");
-            } else if (student.getMajor().equals("CyberSecurity")) {
-                file = new File("src/application/CyberSecurity.txt");
-            } else {
-                file = new File("src/application/Math.txt");
-            }
+//        try {
+//            File file;
+//            if (student.getMajor().equals("Computer Science")) {
+//                file = new File("src/application/CompSci.txt");
+//            } else if (student.getMajor().equals("Information Technology")) {
+//                file = new File("src/application/InformationTech.txt");
+//            } else if (student.getMajor().equals("Computer Networking")) {
+//                file = new File("src/application/CompNetworking.txt");
+//            } else if (student.getMajor().equals("Data Science")) {
+//                file = new File("src/application/DataScience.txt");
+//            } else if (student.getMajor().equals("CyberSecurity")) {
+//                file = new File("src/application/CyberSecurity.txt");
+//            } else {
+//                file = new File("src/application/Math.txt");
+//            }
 
-            Scanner console = new Scanner(file);
+            Scanner console = new Scanner("src/application/Math.txt");
 
             while (console.hasNextLine()) {
                 String className = console.nextLine();
@@ -71,11 +71,11 @@ public class Scene2 {
                 unselectedClasses.add(className); 
             }
             console.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Something went wrong: " + e.getMessage());
-        }
+//        } catch (FileNotFoundException e) {
+//            System.out.println("File not found: " + e.getMessage());
+//        } catch (Exception e) {
+//            System.out.println("Something went wrong: " + e.getMessage());
+//        }
         
         GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -110,16 +110,16 @@ public class Scene2 {
         nextButton.setText("Next");
 
         nextButton.setOnAction(e -> {
-        	if(
-        	validateCredits(genElectiveCredits.getText(), 20)&&
-        	validateCredits(humanElectiveCredits.getText(), 20)&&
-        	validateCredits(sciElectiveCredits.getText(), 20)&&
-        	validateCredits(majorElectiveCredits.getText(), 20)
-        	) {
-        		student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
-        		student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
-        		student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
-        		student.setScienceElective(Integer.parseInt(majorElectiveCredits.getText()));
+//        	if(
+//        	validateCredits(genElectiveCredits.getText(), 20)&&
+//        	validateCredits(humanElectiveCredits.getText(), 20)&&
+//        	validateCredits(sciElectiveCredits.getText(), 20)&&
+//        	validateCredits(majorElectiveCredits.getText(), 20)
+//        	) {
+        		student.setGeneralElective(Integer.parseInt("5"/*genElectiveCredits.getText()*/));
+        		student.setHumanityElective(Integer.parseInt("5"/*humanElectiveCredits.getText()*/));
+        		student.setMajorElective(Integer.parseInt("5"/*sciElectiveCredits.getText()*/));
+        		student.setScienceElective(Integer.parseInt("5"/*majorElectiveCredits.getText()*/));
         		Alert confirm = new Alert(AlertType.CONFIRMATION);
         		confirm.setTitle("Confirmation");
         		confirm.setHeaderText("Are you sure you wish to move on?");
@@ -128,7 +128,7 @@ public class Scene2 {
         		if (result.isPresent() && result.get() == ButtonType.OK) {
         			stage.setScene(Scene3.createScene3(stage, student, unselectedClasses));
         		}
-        	}
+//        	}
         	
 //            System.out.println("Selected Classes: " + selectedClasses);
 //            System.out.println("Unselected Classes: " + unselectedClasses);

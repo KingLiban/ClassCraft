@@ -17,47 +17,89 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class Scene3 {
-
+	
 	public static Scene createScene3(Stage stage, StudentInfo student, ArrayList<String> requiredClasses) {
-		VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
-        Text sceneTitle = new Text("Thank you for your entries. Here is the recommend cirliculum map for you!");
-        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        layout.getChildren().add(sceneTitle);
-        
-        ObservableList<String> classes = FXCollections.observableList(requiredClasses);
-        TableView table = new TableView();
-        table.setItems(classes);
-        TableColumn<StudentInfo, String> firstYear = new TableColumn<>("1st Year");
-        TableColumn<StudentInfo, String> secondYear = new TableColumn<>("2nd Year");
-        TableColumn<StudentInfo, String> thirdYear = new TableColumn<>("3rd Year");
-        TableColumn<StudentInfo, String> fourthYear = new TableColumn<>("4th Year");
-        TableColumn<StudentInfo, String> fall = new TableColumn<>("Fall");
-        TableColumn<StudentInfo, String> spring = new TableColumn<>("Spring");
-        TableColumn<StudentInfo, String> summer = new TableColumn<>("Summer");
-        firstYear.getColumns().addAll(fall, spring, summer);
-        secondYear.getColumns().addAll(fall, spring, summer);
-        thirdYear.getColumns().addAll(fall, spring, summer);
-        fourthYear.getColumns().addAll(fall, spring, summer);
-        fall.setCellValueFactory(new PropertyValueFactory<>("fall"));
-        spring.setCellValueFactory(new PropertyValueFactory<>("spring"));
-        summer.setCellValueFactory(new PropertyValueFactory<>("summer"));
-        table.getItems().add(student.toString());
-        table.getColumns().addAll(firstYear,secondYear,thirdYear,fourthYear);
+		System.out.printf("asdf");
+		
+		
+		
+		  TableView<Person> tableView = new TableView<>();
 
-//        columnOne.setCellValueFactory(c -> new SimpleStringProperty(requiredClasses.get(0)));
-//        columnTwo.setCellValueFactory(c -> new SimpleStringProperty("456"));
-        
-       // table.getColumns().add(firstYear);
-        //table.getItems().addAll(firstYear,secondYear,thirdYear,fourthYear);
-        layout.getChildren().add(table);
-        
-        Button finishButton = new Button();
-        finishButton.setText("Finish");
-        layout.getChildren().add(finishButton);
-        Scene scene = new Scene(layout, 700, 680);
-        return scene;
+		    TableColumn<Person, String> column1 = 
+		    new TableColumn<Person,String>("First Name");
+		    
+		    column1.setCellValueFactory(
+		        new PropertyValueFactory<>("firstName"));
+
+
+		    TableColumn<Person, String> column2 = 
+		    new TableColumn<Person,String>("Last Name");
+		    
+		    column2.setCellValueFactory(
+		        new PropertyValueFactory<Person,String>("lastName"));
+
+
+		    tableView.getColumns().add(column1);
+		    tableView.getColumns().add(column2);
+
+		    tableView.getItems().add(
+		      new Person("John", "Doe"));
+		    tableView.getItems().add(
+		      new Person("Jane", "Deer"));
+
+		    VBox vbox = new VBox(tableView);
+
+		    Scene scene = new Scene(vbox);
+		    return scene;
+		
+		
+		
+		
+		
+//		
+//		
+//		VBox layout = new VBox(10);
+//		
+//        layout.setAlignment(Pos.CENTER);
+//        Text sceneTitle = new Text("Thank you for your entries. Here is the recommend cirliculum map for you!");
+//        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+//        layout.getChildren().add(sceneTitle);
+//        
+//        ObservableList<String> classes = FXCollections.observableList(requiredClasses);
+//        TableView table = new TableView();
+//        table.setItems(classes);
+//        TableColumn<StudentInfo, String> firstYear = new TableColumn<>("1st Year");
+//        TableColumn<StudentInfo, String> secondYear = new TableColumn<>("2nd Year");
+//        TableColumn<StudentInfo, String> thirdYear = new TableColumn<>("3rd Year");
+//        TableColumn<StudentInfo, String> fourthYear = new TableColumn<>("4th Year");
+//        TableColumn<StudentInfo, String> fall = new TableColumn<>("Fall");
+//        TableColumn<StudentInfo, String> spring = new TableColumn<>("Spring");
+//        TableColumn<StudentInfo, String> summer = new TableColumn<>("Summer");
+//        firstYear.getColumns().addAll(fall, spring, summer);
+//        secondYear.getColumns().addAll(fall, spring, summer);
+//        thirdYear.getColumns().addAll(fall, spring, summer);
+//        fourthYear.getColumns().addAll(fall, spring, summer);
+//        fall.setCellValueFactory(new PropertyValueFactory<>("fall"));
+//        spring.setCellValueFactory(new PropertyValueFactory<>("spring"));
+//        summer.setCellValueFactory(new PropertyValueFactory<>("summer"));
+//        table.getItems().add(student.toString());
+//        table.getColumns().addAll(firstYear,secondYear,thirdYear,fourthYear);
+//
+////        columnOne.setCellValueFactory(c -> new SimpleStringProperty(requiredClasses.get(0)));
+////        columnTwo.setCellValueFactory(c -> new SimpleStringProperty("456"));
+//        
+//       // table.getColumns().add(firstYear);
+//        //table.getItems().addAll(firstYear,secondYear,thirdYear,fourthYear);
+//        layout.getChildren().add(table);
+//        
+//        Button finishButton = new Button();
+//        finishButton.setText("Finish");
+//        layout.getChildren().add(finishButton);
+//        Scene scene = new Scene(layout, 700, 680);
+//        System.out.printf("asdf");
+//        return scene;
 	}
 
 }
