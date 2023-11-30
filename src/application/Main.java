@@ -23,9 +23,8 @@ import javafx.scene.text.Text;
 public class Main extends Application {
     private static final String ERR_USERNAME = "A proper name must be provided (Numbers must NOT be included).";
     private static final String ERR_EMAIL = "Your WIT Email must be in the following Format: username@wit.edu (replace with your own WIT Email).";
-	private static final String ERR_COMBO_BOX1 = "Please select a student year out of the ones provided";
-
-	private static final String ERR_COMBO_BOX2 = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
+	private static final String ERR_STUDENT_YEAR = "Please select a student year out of the ones provided";
+	private static final String ERR_MAJOR = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
 	private static final String ERR_SEMESTER = "Please select your current semester out of the ones provided";
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
     @Override
@@ -52,8 +51,8 @@ public class Main extends Application {
 		};
 		Label studYear = new Label("Your Year:");
 		grid.add(studYear, 0, 2);
-		ComboBox<String> comboBox1 = new ComboBox<>(FXCollections.observableArrayList(years));
-		grid.add(comboBox1, 1, 2);
+		ComboBox<String> studentYear = new ComboBox<>(FXCollections.observableArrayList(years));
+		grid.add(studentYear, 1, 2);
 		
 		String[] seasons = {
 				"Fall", "Spring", "Summer"
@@ -84,23 +83,23 @@ public class Main extends Application {
 				String email = userWitEmail.getText();
 				if (!validName(userN)) {
 					invalidNameAlert();
-				} else if (comboBox1.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_COMBO_BOX1); 
+				} else if (studentYear.getSelectionModel().isEmpty()) {
+					invalidSelection(ERR_STUDENT_YEAR); 
 				} else if(choicesOfSeasons.getSelectionModel().isEmpty()) {
 					invalidSelection(ERR_SEMESTER);
 				} else if (!validEmail(email)) {
 					invalidEmailAlert();
 				} else if (comboBox2.getSelectionModel().isEmpty()) {
-					invalidSelection(ERR_COMBO_BOX2);
+					invalidSelection(ERR_MAJOR);
 				} else {
-					String userSelection = comboBox2.getValue();
 					Alert confirm = new Alert(AlertType.CONFIRMATION);
 					confirm.setTitle("Confirmation");
 					confirm.setHeaderText("Are you sure you wish to move on?");
 					confirm.setContentText(CONFIRM_ENTRIES);
 					Optional<ButtonType> result = confirm.showAndWait();
 					if (result.isPresent() && result.get() == ButtonType.OK) {
-						stage.setScene(Scene2.createScene2(stage, userSelection));
+						StudentInfo userEntries = new StudentInfo(userTextField.getText(),choicesOfSeasons.getValue(),studentYear.getValue(),userWitEmail.getText(), comboBox2.getValue());
+						stage.setScene(Scene2.createScene2(stage, userEntries));
 					}
 				}
 			}
