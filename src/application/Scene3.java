@@ -17,49 +17,81 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
-public class Scene3 {
-	
-	public static Scene createScene3(Stage stage, StudentInfo student, ArrayList<String> requiredClasses) {
-		System.out.printf("asdf");
-		
-		
-		
-		  TableView<Person> tableView = new TableView<>();
-
-		    TableColumn<Person, String> column1 = 
-		    new TableColumn<Person,String>("First Name");
-		    
-		    column1.setCellValueFactory(
-		        new PropertyValueFactory<>("firstName"));
-
-
-		    TableColumn<Person, String> column2 = 
-		    new TableColumn<Person,String>("Last Name");
-		    
-		    column2.setCellValueFactory(
-		        new PropertyValueFactory<Person,String>("lastName"));
+import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
-		    tableView.getColumns().add(column1);
-		    tableView.getColumns().add(column2);
 
-		    tableView.getItems().add(
-		      new Person("John", "Doe"));
-		    tableView.getItems().add(
-		      new Person("Jane", "Deer"));
+public class Scene3{
+	 private static final TableView<Person> table = new TableView<>();
+	 private static final ObservableList<Person> data = FXCollections.observableArrayList(new Person("A", "B"),
+	            new Person("D", "E"));
+	    public static class Person {
 
-		    VBox vbox = new VBox(tableView);
+	        private final SimpleStringProperty firstName;
+	        private final SimpleStringProperty lastName;
 
-		    Scene scene = new Scene(vbox);
+	        private Person(String fName, String lName) {
+	            this.firstName = new SimpleStringProperty(fName);
+	            this.lastName = new SimpleStringProperty(lName);
+	        }
+
+	        public String getFirstName() {
+	            return firstName.get();
+	        }
+
+	        public void setFirstName(String fName) {
+	            firstName.set(fName);
+	        }
+
+	        public String getLastName() {
+	            return lastName.get();
+	        }
+
+	        public void setLastName(String fName) {
+	            lastName.set(fName);
+	        }
+	    }
+	    public static Scene createScene3(Stage stage, StudentInfo student, ArrayList<String> requiredClasses) {	
+	    	Scene scene = new Scene(new Group());
+	        stage.setWidth(450);
+	        stage.setHeight(550);
+
+	        TableColumn firstNameCol = new TableColumn("First Name");
+	        firstNameCol.setMinWidth(100);
+	        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+
+	        TableColumn lastNameCol = new TableColumn("Last Name");
+	        lastNameCol.setMinWidth(100);
+	        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+
+	        table.setItems(data);
+	        table.getColumns().addAll(firstNameCol, lastNameCol);
+
+	        firstNameCol.setSortType(TableColumn.SortType.DESCENDING);
+	        lastNameCol.setSortable(false);
+
+	        final VBox vbox = new VBox();
+	        vbox.setSpacing(5);
+	        vbox.setPadding(new Insets(10, 0, 0, 10));
+	        vbox.getChildren().addAll(table);
+
+	        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+
 		    return scene;
-		
-		
-		
-		
-		
-//		
-//		
 //		VBox layout = new VBox(10);
 //		
 //        layout.setAlignment(Pos.CENTER);
@@ -101,5 +133,39 @@ public class Scene3 {
 //        System.out.printf("asdf");
 //        return scene;
 	}
+
+//	@Override
+//	public void start(Stage stage) {
+//		 Scene scene = new Scene(new Group());
+//	        stage.setWidth(450);
+//	        stage.setHeight(550);
+//
+//	        TableColumn firstNameCol = new TableColumn("First Name");
+//	        firstNameCol.setMinWidth(100);
+//	        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+//
+//	        TableColumn lastNameCol = new TableColumn("Last Name");
+//	        lastNameCol.setMinWidth(100);
+//	        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+//
+//	        table.setItems(data);
+//	        table.getColumns().addAll(firstNameCol, lastNameCol);
+//
+//	        firstNameCol.setSortType(TableColumn.SortType.DESCENDING);
+//	        lastNameCol.setSortable(false);
+//
+//	        final VBox vbox = new VBox();
+//	        vbox.setSpacing(5);
+//	        vbox.setPadding(new Insets(10, 0, 0, 10));
+//	        vbox.getChildren().addAll(table);
+//
+//	        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+//
+//	        stage.setScene(scene);
+//	        stage.show();
+//	}
+//	 public static void main(String[] args) {
+//	        launch(args);
+//	 }
 
 }
