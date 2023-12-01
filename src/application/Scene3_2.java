@@ -39,7 +39,7 @@ public class Scene3_2 extends Application {
 	            return age;
 	        }
 	    }
-	    public static Scene createScene3_2(Stage stage, StudentInfo student, ArrayList<String> requiredClasses) {
+	    public static Scene createScene3_2(Stage stage, Student student, ArrayList<String> requiredClasses) {
 	        TableView<Person> tableView = new TableView<>();
 
 	        // Create columns with CellValueFactory using JavaFX Properties

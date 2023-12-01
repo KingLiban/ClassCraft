@@ -65,7 +65,7 @@ public class Scene3{
 	            lastName.set(fName);
 	        }
 	    }
-	    public static Scene createScene3(Stage stage, StudentInfo student, ArrayList<String> requiredClasses) {	
+	    public static Scene createScene3(Stage stage, Student student, ArrayList<String> requiredClasses) {
 	    	Scene scene = new Scene(new Group());
 	        stage.setWidth(450);
 	        stage.setHeight(550);

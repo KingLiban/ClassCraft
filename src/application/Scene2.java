@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Optional;
@@ -35,30 +36,47 @@ public class Scene2 {
 
         ArrayList<String> selectedClasses = new ArrayList<>();
         ArrayList<String> unselectedClasses = new ArrayList<>();
+		Scanner console = createScanner(student);
 
-//		File file = null;
-//		try {
-//            file = switch (student.getMajor()) {
-//                case "Computer Science" -> new File("src/application/CompSci.txt");
-//                case "Information Technology" -> new File("src/application/InformationTech.txt");
-//                case "Computer Networking" -> new File("src/application/CompNetworking.txt");
-//                case "Data Science" -> new File("src/application/DataScience.txt");
-//                case "CyberSecurity" -> new File("src/application/CyberSecurity.txt");
-//                default -> new File("src/application/Math.txt");
-//            };
-//		} catch (Exception e) {
-//			System.out.println("Something went wrong: " + e.getMessage());
-//		}
-//		Scanner console = null;
-//		try {
-//            assert file != null;
-//            console = new Scanner(file);
-//		} catch (FileNotFoundException e) {
-//			throw new RuntimeException(e);
-//		}
+//		Scanner console = new Scanner("src/application/Math.txt");
+		createCheckBoxes(console, selectedClasses, unselectedClasses, layout);
 
-		Scanner console = new Scanner("src/application/Math.txt");
+		GridPane grid = getGridPane();
+		layout.getChildren().add(grid);
+		Button nextButton = getButton(stage, student, unselectedClasses);
+		layout.getChildren().add(nextButton);
 
+        return new Scene(layout, 1200, 680);
+    }
+	private static Scanner createScanner(Student student) {
+		File file = null;
+		try {
+			file = switch (student.getMajor()) {
+				case "Computer Science" -> new File("src/application/CompSci.txt");
+				case "Information Technology" -> new File("src/application/InformationTech.txt");
+				case "Computer Networking" -> new File("src/application/CompNetworking.txt");
+				case "Data Science" -> new File("src/application/DataScience.txt");
+				case "CyberSecurity" -> new File("src/application/CyberSecurity.txt");
+				default -> new File("src/application/Math.txt");
+			};
+		} catch (Exception e) {
+			System.out.println("Something went wrong: " + e.getMessage());
+		}
+		Scanner console = null;
+		try {
+			assert file != null;
+			console = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		return console;
+	}
+	private static void createCheckBoxes(
+			Scanner console,
+			ArrayList<String> selectedClasses,
+			ArrayList<String> unselectedClasses,
+			VBox layout
+	) {
 		while (console.hasNextLine()) {
 			String className = console.nextLine();
 			CheckBox checkBox = new CheckBox(className);
@@ -75,21 +93,12 @@ public class Scene2 {
 			unselectedClasses.add(className);
 		}
 		console.close();
-
-
-		GridPane grid = getGridPane();
-		layout.getChildren().add(grid);
-		Button nextButton = getButton(stage, student, unselectedClasses);
-		layout.getChildren().add(nextButton);
-        return new Scene(layout, 1200, 680);
-    }
-
+	}
 	private static Button getButton(Stage stage, Student student, ArrayList<String> unselectedClasses) {
 		Button nextButton = new Button();
 		nextButton.setText("Next");
 
 		nextButton.setOnAction(e -> {
-			// Uncomment the following block if you want to include the validation
 			// if (
 			//     validateCredits(genElectiveCredits.getText(), 20) &&
 			//     validateCredits(humanElectiveCredits.getText(), 20) &&
