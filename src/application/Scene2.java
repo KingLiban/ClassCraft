@@ -116,10 +116,10 @@ public class Scene2 {
         	validateCredits(sciElectiveCredits.getText(), 20)&&
         	validateCredits(majorElectiveCredits.getText(), 20)
         	) {
-        		student.setGeneralElective(Integer.parseInt("5"/*genElectiveCredits.getText()*/));
-        		student.setHumanityElective(Integer.parseInt("5"/*humanElectiveCredits.getText()*/));
-        		student.setMajorElective(Integer.parseInt("5"/*sciElectiveCredits.getText()*/));
-        		student.setScienceElective(Integer.parseInt("5"/*majorElectiveCredits.getText()*/));
+        		student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
+        		student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
+        		student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
+        		student.setScienceElective(Integer.parseInt(majorElectiveCredits.getText()));
         		Alert confirm = new Alert(AlertType.CONFIRMATION);
         		confirm.setTitle("Confirmation");
         		confirm.setHeaderText("Are you sure you wish to move on?");
