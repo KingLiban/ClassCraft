@@ -51,7 +51,6 @@ public class Scene2 {
             } else {
                 file = new File("src/application/Math.txt");
             }
-
             Scanner console = new Scanner(file);
 
             while (console.hasNextLine()) {

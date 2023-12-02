@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class StudentInfo {
@@ -15,6 +16,7 @@ public class StudentInfo {
 	private ArrayList<String> fall;
 	private ArrayList<String> spring;
 	private ArrayList<String> summer;
+	private File studentFile;
 	public StudentInfo(String name,String season, String year, String email, String major) {
 		setStudentName(name);
 		setSemester(season);
@@ -100,5 +102,12 @@ public class StudentInfo {
 	}
 	public void setMajorElective(int majorElective) {
 		this.majorElective = majorElective;
+	}
+	public File getStudentFile() {
+		return studentFile;
+	}
+	public void setStudentFile(String s) {
+		File f = new File("s");
+		this.studentFile = f;
 	}
 }
