@@ -2,7 +2,9 @@ package application;
 	
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -13,6 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -24,9 +29,9 @@ import java.util.*;
 public class Scene2 {
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
 
-    public static Scene createScene2(Stage stage,StudentInfo student) {
-
+    public static Scene createScene2(Stage stage,StudentInfo student, MenuBar menuBar) {
         VBox layout = new VBox(6);
+        layout.getChildren().add(menuBar);
         layout.setAlignment(Pos.CENTER);
         Text sceneTitle = new Text("Now, We ask that you select the classes you have completed "
         		+ "and enter the current number of credits you have for each subject");
@@ -125,7 +130,8 @@ public class Scene2 {
         		confirm.setContentText(CONFIRM_ENTRIES);
         		Optional<ButtonType> result = confirm.showAndWait();
         		if (result.isPresent() && result.get() == ButtonType.OK) {
-        			stage.setScene(Scene3_2.createScene3_2(stage, student, unselectedClasses));
+        			generateScedule(student, unselectedClasses);
+        			stage.setScene(Scene3_2.createScene3_2(stage, student, unselectedClasses, menuBar));
         		}
         	}
         });
@@ -133,6 +139,75 @@ public class Scene2 {
 
         Scene scene = new Scene(layout, 1100, 680);
         return scene;
+    }
+    public static void generateScedule(StudentInfo student, ArrayList<String> requiredClasses) {
+    	Collection<String> semester = new ArrayList<String>();
+    	switch(student.getSemester()) {
+    	case "Summer":
+    		semester.add("Summer");
+        	semester.add("Fall");
+        	semester.add("Spring");
+        	break;
+    	case "Spring":
+    		semester.add("Spring");
+        	semester.add("Summer");
+        	semester.add("Fall");
+        	break;
+    	default:
+    		semester.add("Fall");
+        	semester.add("Spring");
+        	semester.add("Summer");
+        	break;
+    	}
+    	int year;
+    	switch(student.getStudentYear()) {
+    	  case "Freshman":
+    		  year = 1;
+    		  break;
+    	  case "Sophmore":
+    	    year = 2;
+    	    break;
+    	  case "Junior":
+    	    year = 3;
+    	    break;
+    	  default:
+    	    year = 4;
+    	    break;
+    	}
+        String csvFile = "src/application/studentSchedule.csv";
+        File file = new File(csvFile);
+        file.setWritable(true);
+        try (FileWriter writer = new FileWriter(csvFile)) {
+        	writer.append("Year,Semester,Course\n");
+        	
+            int classIndex = 0;
+            int seasonsPassed = 0;
+            for (int i = 0; i < 3; i++) {
+            	Iterator<String> s = semester.iterator();
+                while (s.hasNext() && classIndex < requiredClasses.size()) {
+                    String currentSemester = s.next();
+                    for (int j = 0; j < 3 && classIndex < requiredClasses.size(); j++) {
+                        writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
+                        classIndex++;
+                    }
+                    seasonsPassed++;
+                    if (seasonsPassed==3 && year < 4) {
+                        year++;
+                    }
+                }
+//                if (year < 4) {
+//                    year++;
+//                }
+            }
+            writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective()<12) ? 12-student.getGeneralElective() : 0));
+            writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective()<12) ? 12-student.getScienceElective() : 0));
+            writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective()<12) ? 12-student.getHumanityElective() : 0));
+            writer.append(String.format("Remaining Major Credits:,%d%n", (student.getMajorElective()<12) ? 12-student.getMajorElective() : 0));
+            writer.close();
+            System.out.println("CSV file has been created successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static boolean validateCredits(String credits, int limit) {
     	Alert alert = new Alert(AlertType.ERROR);
@@ -161,12 +236,5 @@ public class Scene2 {
     	
     }
 }
-//    public static void checkBoxConstructor(String fileName) {
-//    	Scanner console = new Scanner(fileName);
-//		while(console.hasNextLine()) {
-//			CheckBox check_box = new CheckBox(console.nextLine());
-//			layout.getChildren().add(check_box);
-//		}
-//    }
     
 

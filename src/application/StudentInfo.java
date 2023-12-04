@@ -1,7 +1,6 @@
 package application;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class StudentInfo {
 	private String studentName;
@@ -9,13 +8,10 @@ public class StudentInfo {
 	private String studentYear;
 	private String witEmail;
 	private String major;
-	private int generalElective;
-	private int humanityElective;
-	private int scienceElective;
-	private int majorElective;
-	private ArrayList<String> fall;
-	private ArrayList<String> spring;
-	private ArrayList<String> summer;
+	private static int generalElective;
+	private static int humanityElective;
+	private static int scienceElective;
+	private static int majorElective;
 	private File studentFile;
 	public StudentInfo(String name,String season, String year, String email, String major) {
 		setStudentName(name);
@@ -61,47 +57,29 @@ public class StudentInfo {
 				+ "WIT Email: %s%n"
 				+ "Major: ",studentName,semester,studentYear,witEmail,major);
 	}
-	public ArrayList<String> getFall() {
-		return fall;
-	}
-	public void populateFall(ArrayList<String> fall) {
-		this.fall = fall;
-	}
-	public ArrayList<String> getSpring() {
-		return spring;
-	}
-	public void populateSpring(ArrayList<String> spring) {
-		this.spring = spring;
-	}
-	public ArrayList<String> getSummer() {
-		return summer;
-	}
-	public void populateSummer(ArrayList<String> summer) {
-		this.summer = summer;
-	}
 	public int getGeneralElective() {
 		return generalElective;
 	}
 	public void setGeneralElective(int generalElective) {
-		this.generalElective = generalElective;
+		StudentInfo.generalElective = generalElective;
 	}
 	public int getHumanityElective() {
 		return humanityElective;
 	}
 	public void setHumanityElective(int humanityElective) {
-		this.humanityElective = humanityElective;
+		StudentInfo.humanityElective = humanityElective;
 	}
 	public int getScienceElective() {
 		return scienceElective;
 	}
 	public void setScienceElective(int scienceElective) {
-		this.scienceElective = scienceElective;
+		StudentInfo.scienceElective = scienceElective;
 	}
 	public int getMajorElective() {
 		return majorElective;
 	}
 	public void setMajorElective(int majorElective) {
-		this.majorElective = majorElective;
+		StudentInfo.majorElective = majorElective;
 	}
 	public File getStudentFile() {
 		return studentFile;

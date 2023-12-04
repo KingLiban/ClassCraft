@@ -13,8 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -30,11 +34,26 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
     	stage.setTitle("Course Generator");
+    	Menu fileMenu = new Menu("File");
+    	MenuItem menuItem1 = new MenuItem("Item 1");
+    	MenuItem menuItem2 = new MenuItem("Item 2");
+    	fileMenu.getItems().add(menuItem1);
+    	fileMenu.getItems().add(menuItem2);
+    	Menu helpMenu = new Menu("Help");
+    	MenuItem menuItem3 = new MenuItem("Item 3");
+    	MenuItem menuItem4 = new MenuItem("Item 4");
+    	helpMenu.getItems().add(menuItem3);
+    	helpMenu.getItems().add(menuItem4);
+    	MenuBar menuBar = new MenuBar();
+    	menuBar.getMenus().addAll(fileMenu,helpMenu);
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+		
+		VBox vBox = new VBox();
+	    vBox.getChildren().addAll(menuBar, grid);
 		
 		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following Information"
 									+ " to begin:");
@@ -99,13 +118,13 @@ public class Main extends Application {
 					Optional<ButtonType> result = confirm.showAndWait();
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 						StudentInfo userEntries = new StudentInfo(userTextField.getText(),choicesOfSeasons.getValue(),studentYear.getValue(),userWitEmail.getText(), comboBox2.getValue());
-						stage.setScene(Scene2.createScene2(stage, userEntries));
+						stage.setScene(Scene2.createScene2(stage, userEntries, menuBar));
 					}
 				}
 			}
 		);
 
-		Scene scene = new Scene(grid, 700, 480);
+		Scene scene = new Scene(vBox, 700, 480);
 		stage.setScene(scene);
 		stage.show();
     }
