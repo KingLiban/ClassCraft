@@ -186,13 +186,24 @@ public class Scene2 {
             	Iterator<String> s = semester.iterator();
                 while (s.hasNext() && classIndex < requiredClasses.size()) {
                     String currentSemester = s.next();
-                    for (int j = 0; j < 3 && classIndex < requiredClasses.size(); j++) {
-                        writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
-                        classIndex++;
+                    for (int j = 0; j < 2 && classIndex < requiredClasses.size(); j++) {
+                    	if(year == 1 && currentSemester.equals("Summer")) {
+                    		writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
+                    	} else if(year == 2 && currentSemester.equals("Summer")) {
+                    		writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3000 Pre Co-op Work Term (Optional)"));
+                    	} else if(year == 3 && currentSemester.equals("Spring")) {
+                    		writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3500 Co-op Education I(Required)"));
+                    	} else if(year == 4 && currentSemester.equals("Fall")) {
+                    		writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
+                    	} else {
+                    		writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
+                    		classIndex++;
+                    	}
                     }
                     seasonsPassed++;
                     if (seasonsPassed==3 && year < 4) {
                         year++;
+                        seasonsPassed = 0;
                     }
                 }
 //                if (year < 4) {

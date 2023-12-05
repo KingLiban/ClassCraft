@@ -1,13 +1,23 @@
 Year,Semester,Course
-2,Fall,MATH2860	LINEAR ALGEBRA & MATRIX THEORY	
-2,Fall,COMP2350	ALGORITHMS	
-2,Fall,COMP3400	OPERATING SYSTEMS	
-2,Spring,MATH2100	PROBABILITY & STATISTICS FOR ENGINEERS	
-2,Spring,COMP3350	PROGRAMMING LANGUAGES	
-2,Spring,COMP4960	SOFTWARE ENGINEERING	
-2,Summer,COMP3450	PARALLEL COMPUTING AND DISTRIBUTED COMPUTING	
-2,Summer,COMP5500	SENIOR PROJECT	
-Remaining General Elective Credits:,7
-Remaining Science Elective Credits:,7
-Remaining Humanities/Social Science Elective Credits:,19
-Remaining Major Credits:,25
+1,Fall,MATH1776	CALCULUS 1A	
+1,Fall,MATH1777	CALCULUS 1B	
+1,Spring,COMP1200	COMPUTER ORGANIZATION	
+1,Spring,MATH1876	CALCULUS 2A	
+1,Summer,No Classes
+1,Summer,No Classes
+2,Fall,MATH1877	CALCULUS 2B	
+2,Fall,COMP2000	DATA STRUCTURES	
+2,Spring,COMP2100	NETWORK PROGRAMMING	
+2,Spring,COMP2650	DATABASES	
+2,Summer,COOP3000 Pre Co-op Work Term (Optional)
+2,Summer,COOP3000 Pre Co-op Work Term (Optional)
+3,Fall,MATH2860	LINEAR ALGEBRA & MATRIX THEORY	
+3,Fall,COMP2350	ALGORITHMS	
+3,Spring,COOP3500 Co-op Education I(Required)
+3,Spring,COOP3500 Co-op Education I(Required)
+3,Summer,COMP3400	OPERATING SYSTEMS	
+3,Summer,MATH2100	PROBABILITY & STATISTICS FOR ENGINEERS	
+Remaining General Elective Credits:,4
+Remaining Science Elective Credits:,4
+Remaining Humanities/Social Science Elective Credits:,16
+Remaining Major Credits:,32
