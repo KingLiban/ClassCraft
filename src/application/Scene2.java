@@ -15,9 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -28,153 +26,189 @@ import java.util.*;
 
 public class Scene2 {
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
+	private static TextField genElectiveCredits;
+	private static TextField humanElectiveCredits;
+	private static TextField sciElectiveCredits;
+	private static TextField majorElectiveCredits;
 
-    public static Scene createScene2(Stage stage,StudentInfo student, MenuBar menuBar) {
+    public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
+
         VBox layout = new VBox(6);
-        layout.getChildren().add(menuBar);
+		layout.getChildren().add(menuBar);
         layout.setAlignment(Pos.CENTER);
-        Text sceneTitle = new Text("Now, We ask that you select the classes you have completed "
+        Text sceneTitle = new Text("Now, we ask that you select the classes you have completed "
         		+ "and enter the current number of credits you have for each subject");
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         layout.getChildren().add(sceneTitle);
 
         ArrayList<String> selectedClasses = new ArrayList<>();
         ArrayList<String> unselectedClasses = new ArrayList<>();
+		Scanner console = createScanner(student);
 
-        try {
-            File file;
-            if (student.getMajor().equals("Computer Science")) {
-                file = new File("src/application/CompSci.txt");
-            } else if (student.getMajor().equals("Information Technology")) {
-                file = new File("src/application/InformationTech.txt");
-            } else if (student.getMajor().equals("Computer Networking")) {
-                file = new File("src/application/CompNetworking.txt");
-            } else if (student.getMajor().equals("Data Science")) {
-                file = new File("src/application/DataScience.txt");
-            } else if (student.getMajor().equals("CyberSecurity")) {
-                file = new File("src/application/CyberSecurity.txt");
-            } else {
-                file = new File("src/application/Math.txt");
-            }
-            Scanner console = new Scanner(file);
+		createCheckBoxes(console, selectedClasses, unselectedClasses, layout);
 
-            while (console.hasNextLine()) {
-                String className = console.nextLine();
-                CheckBox checkBox = new CheckBox(className);
+		GridPane grid = getGridPane();
+		layout.getChildren().add(grid);
+		Button nextButton = getButton(stage, student, unselectedClasses, selectedClasses, menuBar);
+		layout.getChildren().add(nextButton);
 
-                checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue) {
-                        selectedClasses.add(className);
-                        unselectedClasses.remove(className); 
-                    } else {
-                        selectedClasses.remove(className);
-                        unselectedClasses.add(className);
-                    }
-                });
-                layout.getChildren().add(checkBox);
-                unselectedClasses.add(className); 
-            }
-            console.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Something went wrong: " + e.getMessage());
-        }
-        
-        GridPane grid = new GridPane();
+        return new Scene(layout, 1200, 780);
+    }
+	private static Scanner createScanner(Student student) {
+		File file = null;
+		try {
+			file = switch (student.getMajor()) {
+				case "Computer Science" -> new File("src/application/CompSci.txt");
+				case "Information Technology" -> new File("src/application/InformationTech.txt");
+				case "Computer Networking" -> new File("src/application/CompNetworking.txt");
+				case "Data Science" -> new File("src/application/DataScience.txt");
+				case "CyberSecurity" -> new File("src/application/CyberSecurity.txt");
+				default -> new File("src/application/Math.txt");
+			};
+		} catch (Exception e) {
+			System.out.println("Something went wrong: " + e.getMessage());
+		}
+		Scanner console = null;
+		try {
+			assert file != null;
+			console = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		return console;
+	}
+	private static void createCheckBoxes(
+			Scanner console,
+			ArrayList<String> selectedClasses,
+			ArrayList<String> unselectedClasses,
+			VBox layout
+	) {
+		while (console.hasNextLine()) {
+			String className = console.nextLine();
+			CheckBox checkBox = new CheckBox(className);
+			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				if (newValue) {
+					selectedClasses.add(className);
+					unselectedClasses.remove(className);
+				} else {
+					selectedClasses.remove(className);
+					unselectedClasses.add(className);
+				}
+			});
+			layout.getChildren().add(checkBox);
+			unselectedClasses.add(className);
+		}
+		console.close();
+	}
+	private static Button getButton(
+			Stage stage,
+			Student student,
+			ArrayList<String> unselectedClasses,
+			ArrayList<String> selectedClasses,
+			MenuBar menuBar
+	) {
+		Button nextButton = new Button();
+		nextButton.setText("Next");
+
+		nextButton.setOnAction(e -> {
+			if (!validatePrerequisites(selectedClasses)) {
+				Alert confirm = new Alert(AlertType.ERROR);
+				confirm.setTitle("Missing Prerequisites");
+				confirm.setHeaderText("Please make sure your classes are in order.");
+				confirm.setContentText(CONFIRM_ENTRIES);
+				confirm.showAndWait();
+			} else {
+				if (
+						validateCredits(genElectiveCredits.getText(), 20) &&
+								validateCredits(humanElectiveCredits.getText(), 20) &&
+								validateCredits(sciElectiveCredits.getText(), 20) &&
+								validateCredits(majorElectiveCredits.getText(), 20)
+				) {
+					student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
+					student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
+					student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
+					student.setScienceElective(Integer.parseInt(majorElectiveCredits.getText()));
+
+					Alert confirm = new Alert(AlertType.CONFIRMATION);
+					confirm.setTitle("Confirmation");
+					confirm.setHeaderText("Are you sure you wish to move on?");
+					confirm.setContentText(CONFIRM_ENTRIES);
+
+					Optional<ButtonType> result = confirm.showAndWait();
+
+					if (result.isPresent() && result.get() == ButtonType.OK) {
+						generateSchedule(student, unselectedClasses);
+						stage.setScene(Scene3.createScene3(stage, student, unselectedClasses, menuBar));
+					}
+				} else {
+					Alert error = new Alert(AlertType.ERROR);
+					error.setTitle("Missing classes");
+					error.setHeaderText("Please choose your classes");
+					error.setContentText(CONFIRM_ENTRIES);
+				}
+			}
+
+		});
+		return nextButton;
+	}
+	private static GridPane getGridPane() {
+		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		
+
 		Label generalElective = new Label("Current General Elective Credits:");
 		grid.add(generalElective, 0, 1);
-		TextField genElectiveCredits = new TextField();
+		genElectiveCredits = new TextField();
 		grid.add(genElectiveCredits, 1, 1);
-		
+
 		Label humanityElective = new Label("Current Humanities/Social Science Elective Credits:");
 		grid.add(humanityElective, 0, 2);
-		TextField humanElectiveCredits = new TextField();
+		humanElectiveCredits = new TextField();
 		grid.add(humanElectiveCredits, 1, 2);
-		
+
 		Label scienceElective = new Label("Current Science Elective Credits:");
 		grid.add(scienceElective, 0, 3);
-		TextField sciElectiveCredits = new TextField();
+		sciElectiveCredits = new TextField();
 		grid.add(sciElectiveCredits, 1, 3);
-		
+
 		Label majorElective = new Label("Current Major Elective Credits:");
 		grid.add(majorElective, 0, 4);
-		TextField majorElectiveCredits = new TextField();
+		majorElectiveCredits = new TextField();
 		grid.add(majorElectiveCredits, 1, 4);
-		
-		
-		
-		layout.getChildren().add(grid);
-        Button nextButton = new Button();
-        nextButton.setText("Next");
+		return grid;
+	}
 
-        nextButton.setOnAction(e -> {
-        	if(
-        	validateCredits(genElectiveCredits.getText(), 20)&&
-        	validateCredits(humanElectiveCredits.getText(), 20)&&
-        	validateCredits(sciElectiveCredits.getText(), 20)&&
-        	validateCredits(majorElectiveCredits.getText(), 40)
-        	) {
-        		student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
-        		student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
-        		student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
-        		student.setScienceElective(Integer.parseInt(majorElectiveCredits.getText()));
-        		Alert confirm = new Alert(AlertType.CONFIRMATION);
-        		confirm.setTitle("Confirmation");
-        		confirm.setHeaderText("Are you sure you wish to move on?");
-        		confirm.setContentText(CONFIRM_ENTRIES);
-        		Optional<ButtonType> result = confirm.showAndWait();
-        		if (result.isPresent() && result.get() == ButtonType.OK) {
-        			generateScedule(student, unselectedClasses);
-        			stage.setScene(Scene3_2.createScene3_2(stage, student, unselectedClasses, menuBar));
-        		}
-        	}
-        });
-        layout.getChildren().add(nextButton);
+	public static void generateSchedule(Student student, ArrayList<String> requiredClasses) {
+		Collection<String> semester = new ArrayList<String>();
 
-        Scene scene = new Scene(layout, 1100, 680);
-        return scene;
-    }
-    public static void generateScedule(StudentInfo student, ArrayList<String> requiredClasses) {
-    	Collection<String> semester = new ArrayList<String>();
-    	switch(student.getSemester()) {
-    	case "Summer":
-    		semester.add("Summer");
-        	semester.add("Fall");
-        	semester.add("Spring");
-        	break;
-    	case "Spring":
-    		semester.add("Spring");
-        	semester.add("Summer");
-        	semester.add("Fall");
-        	break;
-    	default:
-    		semester.add("Fall");
-        	semester.add("Spring");
-        	semester.add("Summer");
-        	break;
-    	}
-    	int year;
-    	switch(student.getStudentYear()) {
-    	  case "Freshman":
-    		  year = 1;
-    		  break;
-    	  case "Sophmore":
-    	    year = 2;
-    	    break;
-    	  case "Junior":
-    	    year = 3;
-    	    break;
-    	  default:
-    	    year = 4;
-    	    break;
-    	}
-        String csvFile = "src/application/studentSchedule.csv";
+		switch(student.getSemester()) {
+			case "Summer":
+				semester.add("Summer");
+				semester.add("Fall");
+				semester.add("Spring");
+				break;
+			case "Spring":
+				semester.add("Spring");
+				semester.add("Summer");
+				semester.add("Fall");
+				break;
+			default:
+				semester.add("Fall");
+				semester.add("Spring");
+				semester.add("Summer");
+				break;
+		}
+
+		int year = switch (student.getStudentYear()) {
+            case "Freshman" -> 1;
+            case "Sophomore" -> 2;
+            case "Junior" -> 3;
+            default -> 4;
+        };
+
+        String csvFile = "src/application/StudentSchedule.csv";
         File file = new File(csvFile);
         file.setWritable(true);
         try (FileWriter writer = new FileWriter(csvFile)) {
@@ -244,8 +278,13 @@ public class Scene2 {
     		alert.showAndWait();
     		return false;
     	}
-    	
     }
+
+	private static boolean validatePrerequisites(ArrayList<String> selectedClasses) {
+		CoursePrerequisites coursePrerequisites = new CoursePrerequisites();
+
+        return coursePrerequisites.checkPrerequisites(selectedClasses);
+	}
 }
     
 
