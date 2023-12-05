@@ -34,9 +34,11 @@ public class Scene3_2 {
 	    	VBox root = new VBox();
 	        root.getChildren().add(menuBar);
 
-	        Text sceneTitle = new Text("Thank you for your patience. Your College Road Map has been sent to your email.");
+	        Text sceneTitle = new Text("Thank you for your patience. CSV file has been created successfully");
 	        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 	        root.getChildren().add(sceneTitle);
+	        
+	        
 	        Scene scene = new Scene(root, 800, 600);
 	        // Set the data to the table
 	        return scene;

@@ -118,7 +118,7 @@ public class Scene2 {
         	validateCredits(genElectiveCredits.getText(), 20)&&
         	validateCredits(humanElectiveCredits.getText(), 20)&&
         	validateCredits(sciElectiveCredits.getText(), 20)&&
-        	validateCredits(majorElectiveCredits.getText(), 20)
+        	validateCredits(majorElectiveCredits.getText(), 40)
         	) {
         		student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
         		student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
@@ -199,10 +199,10 @@ public class Scene2 {
 //                    year++;
 //                }
             }
-            writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective()<12) ? 12-student.getGeneralElective() : 0));
-            writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective()<12) ? 12-student.getScienceElective() : 0));
-            writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective()<12) ? 12-student.getHumanityElective() : 0));
-            writer.append(String.format("Remaining Major Credits:,%d%n", (student.getMajorElective()<12) ? 12-student.getMajorElective() : 0));
+            writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective()<=8) ? 8-student.getGeneralElective() : 0));
+            writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective()<=8) ? 8-student.getScienceElective() : 0));
+            writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective()<=20) ? 20-student.getHumanityElective() : 0));
+            writer.append(String.format("Remaining Major Credits:,%d%n", (student.getMajorElective()<36) ? 36-student.getMajorElective() : 0));
             writer.close();
             System.out.println("CSV file has been created successfully!");
         } catch (IOException e) {
