@@ -29,86 +29,90 @@ public class Scene1 extends Application {
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-    	stage.setTitle("Course Generator");
+    	try {
+    		stage.setTitle("Course Generator");
 
-		Menu fileMenu = new Menu("File");
-		MenuItem menuItem1 = new MenuItem("Item 1");
-		MenuItem menuItem2 = new MenuItem("Item 2");
-		fileMenu.getItems().add(menuItem1);
-		fileMenu.getItems().add(menuItem2);
-		Menu helpMenu = new Menu("Help");
-		MenuItem menuItem3 = new MenuItem("Item 3");
-		MenuItem menuItem4 = new MenuItem("Item 4");
-		helpMenu.getItems().add(menuItem3);
-		helpMenu.getItems().add(menuItem4);
+    		Menu fileMenu = new Menu("File");
+    		MenuItem menuItem1 = new MenuItem("Item 1");
+    		MenuItem menuItem2 = new MenuItem("Item 2");
+    		fileMenu.getItems().add(menuItem1);
+    		fileMenu.getItems().add(menuItem2);
+    		Menu helpMenu = new Menu("Help");
+    		MenuItem menuItem3 = new MenuItem("Item 3");
+    		MenuItem menuItem4 = new MenuItem("Item 4");
+    		helpMenu.getItems().add(menuItem3);
+    		helpMenu.getItems().add(menuItem4);
 
-		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(fileMenu,helpMenu);
+    		MenuBar menuBar = new MenuBar();
+    		menuBar.getMenus().addAll(fileMenu,helpMenu);
 
-		VBox vBox = new VBox();
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
-		grid.setHgap(10);
-		grid.setVgap(10);
-		grid.setPadding(new Insets(25, 25, 25, 25));
-		
-		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following information to begin:");
-		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		grid.add(sceneTitle, 0, 0, 2, 1);
+    		VBox vBox = new VBox();
+    		GridPane grid = new GridPane();
+    		grid.setAlignment(Pos.CENTER);
+    		grid.setHgap(10);
+    		grid.setVgap(10);
+    		grid.setPadding(new Insets(25, 25, 25, 25));
+    		
+    		Text sceneTitle = new Text("Hello Wentworth Student! Please enter the following information to begin:");
+    		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+    		grid.add(sceneTitle, 0, 0, 2, 1);
 
-		Label userName = new Label("Name:");
-		grid.add(userName, 0, 1);
-		TextField userTextField = new TextField();
-		grid.add(userTextField, 1, 1);
+    		Label userName = new Label("Name:");
+    		grid.add(userName, 0, 1);
+    		TextField userTextField = new TextField();
+    		grid.add(userTextField, 1, 1);
 
-		String[] years = {
-				"Freshman", "Sophomore", "Junior", "Senior"
-		};
-		Label studYear = new Label("Your Year:");
-		grid.add(studYear, 0, 2);
-		ComboBox<String> studentYear = new ComboBox<>(FXCollections.observableArrayList(years));
-		grid.add(studentYear, 1, 2);
-		
-		String[] seasons = {
-				"Fall", "Spring", "Summer"
-		};
-		Label  season = new Label("Current Semester:");
-		grid.add(season, 0, 3);
-		ComboBox<String> choicesOfSeasons = new ComboBox<>(FXCollections.observableArrayList(seasons));
-		grid.add(choicesOfSeasons, 1, 3);
-		
-		Label witEmail = new Label("WIT Email:");
-		grid.add(witEmail, 0, 4);
-		TextField userWitEmail = new TextField();
-		grid.add(userWitEmail, 1, 4);
-		
-		String[] majors = {
-				"Computer Science", "Information Technology", "Computer Networking", "Data Science", "CyberSecurity", "Applied Mathematics"
-		};
-		Label major = new Label("Your Major:");
-		grid.add(major, 0, 5);
-		ComboBox<String> comboBox2 = new ComboBox<>(FXCollections.observableArrayList(majors));
-		grid.add(comboBox2, 1, 5);
-		
-		Button nextButton = getButton(
-				userTextField, choicesOfSeasons, studentYear,userWitEmail, comboBox2, stage, menuBar
-		);
-		nextButton.setText("Next");
-		grid.add(nextButton, 0, 6);
+    		String[] years = {
+    				"Freshman", "Sophomore", "Junior", "Senior"
+    		};
+    		Label studYear = new Label("Your Year:");
+    		grid.add(studYear, 0, 2);
+    		ComboBox<String> studentYear = new ComboBox<>(FXCollections.observableArrayList(years));
+    		grid.add(studentYear, 1, 2);
+    		
+    		String[] seasons = {
+    				"Fall", "Spring", "Summer"
+    		};
+    		Label  season = new Label("Current Semester:");
+    		grid.add(season, 0, 3);
+    		ComboBox<String> choicesOfSeasons = new ComboBox<>(FXCollections.observableArrayList(seasons));
+    		grid.add(choicesOfSeasons, 1, 3);
+    		
+    		Label witEmail = new Label("WIT Email:");
+    		grid.add(witEmail, 0, 4);
+    		TextField userWitEmail = new TextField();
+    		grid.add(userWitEmail, 1, 4);
+    		
+    		String[] majors = {
+    				"Computer Science", "Information Technology", "Computer Networking", "Data Science", "CyberSecurity", "Applied Mathematics"
+    		};
+    		Label major = new Label("Your Major:");
+    		grid.add(major, 0, 5);
+    		ComboBox<String> comboBox2 = new ComboBox<>(FXCollections.observableArrayList(majors));
+    		grid.add(comboBox2, 1, 5);
+    		
+    		Button nextButton = getButton(
+    				userTextField, choicesOfSeasons, studentYear,userWitEmail, comboBox2, stage, menuBar
+    		);
+    		nextButton.setText("Next");
+    		grid.add(nextButton, 0, 6);
 
-		Image image = new Image(new FileInputStream("src/images/WIT.png"), 500.0, 132.5, false, false);
-		ImageView imageView = new ImageView(image);
-		vBox.getChildren().add(menuBar);
-		vBox.getChildren().add(grid);
-		vBox.getChildren().add(imageView);
-		vBox.setAlignment(Pos.CENTER);
+    		Image image = new Image(new FileInputStream("src/WIT.png"), 500.0, 132.5, false, false);
+    		ImageView imageView = new ImageView(image);
+    		vBox.getChildren().add(menuBar);
+    		vBox.getChildren().add(grid);
+    		vBox.getChildren().add(imageView);
+    		vBox.setAlignment(Pos.CENTER);
 
-		VBox root = new VBox();
-		root.getChildren().addAll(menuBar, vBox);
-		Scene scene = new Scene(root, 1200, 780);
-		stage.setScene(scene);
+    		VBox root = new VBox();
+    		root.getChildren().addAll(menuBar, vBox);
+    		Scene scene = new Scene(root, 1200, 680);
+    		stage.setScene(scene);
 
-		stage.show();
+    		stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public static boolean validName(String name) {

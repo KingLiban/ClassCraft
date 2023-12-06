@@ -16,8 +16,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -34,16 +36,12 @@ public class Scene2 {
 	private static CoursePrerequisites coursePrerequisites;
 
 	public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
+		SplitPane splitPane = new SplitPane();
 		VBox layout = new VBox(6);
-
-		layout.setAlignment(Pos.CENTER);
-
-		layout.getChildren().add(menuBar);
-
+		VBox layout2 = new VBox(6);
 		Text sceneTitle = new Text("Now, kindly choose the courses you've finished and input the current credit count for each subject.");
 		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-		layout.getChildren().add(sceneTitle);
-
+		layout.getChildren().addAll(menuBar,sceneTitle);
 		ArrayList<String> selectedClasses = new ArrayList<>();
 		ArrayList<String> unselectedClasses = new ArrayList<>();
 		Scanner console = createScanner(student);
@@ -51,12 +49,12 @@ public class Scene2 {
 		createCheckBoxes(console, selectedClasses, unselectedClasses, layout);
 
 		GridPane grid = getGridPane();
-		layout.getChildren().add(grid);
+		layout2.getChildren().add(grid);
 
 		Button nextButton = getButton(stage, student, unselectedClasses, selectedClasses, menuBar);
-		layout.getChildren().add(nextButton);
-
-		return new Scene(layout, 1200, 780);
+		layout2.getChildren().add(nextButton);
+		splitPane.getItems().addAll(layout,layout2);
+		return new Scene(splitPane, 1200, 780);
 	}
 
 	private static Scanner createScanner(Student student) {
@@ -219,35 +217,43 @@ public class Scene2 {
 			writer.append("Year,Semester,Course\n");
 
 			int classIndex = 0;
-			int seasonsPassed = 0;
-			for (int i = 0; i < 3; i++) {
-				Iterator<String> s = semester.iterator();
-				while (s.hasNext() && classIndex < requiredClasses.size()) {
-					String currentSemester = s.next();
-					for (int j = 0; j < 2 && classIndex < requiredClasses.size(); j++) {
-						if (year == 1 && currentSemester.equals("Summer")) {
-							writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
-						} else if (year == 2 && currentSemester.equals("Summer")) {
-							writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3000 Pre Co-op Work Term (Optional)"));
-						} else if (year == 3 && currentSemester.equals("Spring")) {
-							writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3500 Co-op Education I(Required)"));
-						} else if (year == 4 && currentSemester.equals("Fall")) {
-							writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
-						} else {
-							writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
-							classIndex++;
-						}
-					}
-					seasonsPassed++;
-					if (seasonsPassed == 3 && year < 4) {
-						year++;
-						seasonsPassed = 0;
-					}
-				}
-//                if (year < 4) {
-//                    year++;
-//                }
-			}
+            while (year < 5) {
+                Iterator<String> s = semester.iterator();
+                while (s.hasNext()) {
+                    String currentSemester = s.next();
+                    for (int j = 0; j < 3; j++) {
+                        if (classIndex < requiredClasses.size()) {
+                            if (year == 1 && currentSemester.equals("Summer")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
+                            } else if (year == 2 && currentSemester.equals("Summer")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3000 Pre Co-op Work Term (Optional)"));
+                            } else if (year == 3 && currentSemester.equals("Spring")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3500 Co-op Education I(Required)"));
+                            } else if (year == 4 && currentSemester.equals("Fall")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
+                            } else {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
+                                classIndex++;
+                            }
+                        } else {
+                            // Write default lines for remaining semesters if requiredClasses is exhausted
+                            if (year == 1 && currentSemester.equals("Summer")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
+                            } else if (year == 2 && currentSemester.equals("Summer")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3000 Pre Co-op Work Term (Optional)"));
+                            } else if (year == 3 && currentSemester.equals("Spring")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP3500 Co-op Education I(Required)"));
+                            } else if (year == 4 && currentSemester.equals("Fall")) {
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
+                            } else {
+                                // You might want to add some default courses for unspecified cases
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "Remaining Course"));
+                            }
+                        }
+                    }
+                }
+                year++;
+            }
 			writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective() <= 8) ? 8 - student.getGeneralElective() : 0));
 			writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective() <= 8) ? 8 - student.getScienceElective() : 0));
 			writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective() <= 20) ? 20 - student.getHumanityElective() : 0));

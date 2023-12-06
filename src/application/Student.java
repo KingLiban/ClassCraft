@@ -1,7 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-
 public class Student {
 	private String name;
 	private String semester;
@@ -12,9 +10,6 @@ public class Student {
 	private int humanityElective;
 	private int scienceElective;
 	private int majorElective;
-	private ArrayList<String> fall;
-	private ArrayList<String> spring;
-	private ArrayList<String> summer;
 	public Student(String name, String semester, String year, String email, String major) {
 		this.name = name;
 		this.semester = semester;
@@ -46,24 +41,6 @@ public class Student {
 						+ "WIT Email: %s%n"
 						+ "Major: ", name, semester, year, email, major
 		);
-	}
-	public ArrayList<String> getFall() {
-		return fall;
-	}
-	public void populateFall(ArrayList<String> fall) {
-		this.fall = fall;
-	}
-	public ArrayList<String> getSpring() {
-		return spring;
-	}
-	public void populateSpring(ArrayList<String> spring) {
-		this.spring = spring;
-	}
-	public ArrayList<String> getSummer() {
-		return summer;
-	}
-	public void populateSummer(ArrayList<String> summer) {
-		this.summer = summer;
 	}
 	public int getGeneralElective() {
 		return generalElective;
