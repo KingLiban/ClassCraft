@@ -254,6 +254,14 @@ public class Scene2 {
                 }
                 year++;
             }
+            if(classIndex<requiredClasses.size()-1) {
+            	ArrayList<String> unlistedClasses = new ArrayList<String>();
+            	while(classIndex<requiredClasses.size()) {
+            		unlistedClasses.add(requiredClasses.get(classIndex));
+            		classIndex++;
+            	}
+        		writer.append(String.format("Classes not listed:,%s%n",unlistedClasses.toString()));
+            }
 			writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective() <= 8) ? 8 - student.getGeneralElective() : 0));
 			writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective() <= 8) ? 8 - student.getScienceElective() : 0));
 			writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective() <= 20) ? 20 - student.getHumanityElective() : 0));
