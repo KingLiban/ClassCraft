@@ -96,15 +96,18 @@ public class Scene1 extends Application {
 		nextButton.setText("Next");
 		grid.add(nextButton, 0, 6);
 
-		Image image = new Image(new FileInputStream("src/WIT.png"), 500.0, 132.5, false, false);
+		Image image = new Image(new FileInputStream("src/images/WIT.png"), 500.0, 132.5, false, false);
 		ImageView imageView = new ImageView(image);
-		grid.add(imageView, 0, 7);
 		vBox.getChildren().add(menuBar);
 		vBox.getChildren().add(grid);
 		vBox.getChildren().add(imageView);
 		vBox.setAlignment(Pos.CENTER);
-		Scene scene = new Scene(vBox, 1200, 780);
+
+		VBox root = new VBox();
+		root.getChildren().addAll(menuBar, vBox);
+		Scene scene = new Scene(root, 1200, 780);
 		stage.setScene(scene);
+
 		stage.show();
     }
     
