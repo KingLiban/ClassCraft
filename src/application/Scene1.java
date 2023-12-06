@@ -147,7 +147,7 @@ public class Scene1 extends Application {
 		alert4.showAndWait();
     }
     public static boolean validEmail(String email) {
-    	if (email.length() <= 8) {
+    	if (email.length() <= 8 || email.contains(" ")) {
     		return false;
     	}
     	String subString = email.substring(email.length() - 8);
