@@ -1,3 +1,12 @@
+/**
+ * The Scene1 class represents the first scene of a JavaFX application for course generation.
+ * It collects user information such as name, student year, current semester, WIT email, and major.
+ * Upon valid entries, it transitions to the second scene (Scene2) after confirming that all inputs are correct.
+ *
+ * @author Ibukunoluwa Folajimi, Davud Azizov, Liban Mohamed
+ *
+ */
+
 package application;
 
 import java.io.FileInputStream;
@@ -18,7 +27,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-
+/**
+ * The Scene1 class extends Application
+ */
 public class Scene1 extends Application {
     private static final String ERR_USERNAME = "A proper name must be provided (Numbers must NOT be included).";
     private static final String ERR_EMAIL = "Your WIT Email must be in the following Format: username@wit.edu (replace with your own WIT Email).";
@@ -26,6 +37,11 @@ public class Scene1 extends Application {
 	private static final String ERR_MAJOR = "Please select a major out of the ones provided (As of now, only the ones listed are available.)";
 	private static final String ERR_SEMESTER = "Please select your current semester out of the ones provided";
     private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
+
+	/**
+	 * The start method is called
+	 * right after the application is launched.
+	 */
     @Override
     public void start(Stage stage) {
     	try {
@@ -114,6 +130,12 @@ public class Scene1 extends Application {
         }
     }
 
+	/**
+	 * Validates that the provided name contains only letters and whitespaces.
+	 *
+	 * @param name The name to validate.
+	 * @return True if the name is valid, false otherwise.
+	 */
     public static boolean validName(String name) {
     	if (name.isEmpty()) return false;
 
@@ -125,6 +147,9 @@ public class Scene1 extends Application {
     	return true;
     }
 
+	/**
+	 * Displays an alert for invalid name input.
+	 */
     public static void invalidNameAlert() {
     	Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Please try again");
@@ -133,6 +158,9 @@ public class Scene1 extends Application {
 		alert.showAndWait();
     }
 
+	/**
+	 * Displays an alert for invalid email input.
+	 */
     public static void invalidEmailAlert() {
     	Alert alert3 = new Alert(AlertType.ERROR);
 		alert3.setTitle("Please try again");
@@ -141,6 +169,9 @@ public class Scene1 extends Application {
 		alert3.showAndWait();
     }
 
+	/**
+	 * Displays an alert for invalid selection.
+	 */
     public static void invalidSelection(String ERR) {
     	Alert alert4 = new Alert(AlertType.ERROR);
 		alert4.setTitle("Please Try Again");
@@ -149,13 +180,22 @@ public class Scene1 extends Application {
 		alert4.showAndWait();
     }
 
-    public static boolean validEmail(String email) {
+	/**
+	 * Checks if the emails in the correct
+	 * format and contains wit.edu
+	 */
+	public static boolean validEmail(String email) {
     	if (email.length() <= 8) {
     		return false;
     	}
     	String subString = email.substring(email.length() - 8);
     	return subString.equals("@wit.edu");
     }
+
+	/**
+	 * 	The getButton method creates and returns
+	 * 	the "Next" button with all the input user has entered so far
+	 */
 	private static Button getButton(
 			TextField userTextField,
 			ComboBox choicesOfSeasons,
@@ -197,11 +237,19 @@ public class Scene1 extends Application {
 		return nextButton;
 	}
 
+	/**
+	 * 	Creates and returns the Optional<ButtonType>
+	 * 	    for the confirmation alert.
+	 */
 	private static Optional<ButtonType> getButtonType() {
 		Alert confirm = getAlert();
         return confirm.showAndWait();
 	}
 
+	/**
+	 * 	The getAlert method creates and returns
+	 * 	the confirmation alert for moving on to the next scene.
+	 */
 	private static Alert getAlert() {
 		Alert confirm = new Alert(AlertType.CONFIRMATION);
 		confirm.setTitle("Confirmation");
@@ -210,6 +258,11 @@ public class Scene1 extends Application {
 		return confirm;
 	}
 
+	/**
+	 * The main method is the entry point of the JavaFX application.
+	 *
+	 * @param args Command-line arguments.
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

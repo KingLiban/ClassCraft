@@ -1,3 +1,11 @@
+/**
+ * The Scene3 class represents the third scene of a JavaFX application.
+ * It displays a message to the user, indicating that a CSV file has been created successfully.
+ *
+ * @author Ibukunoluwa Folajimi, Davud Azizov, Liban Mohamed
+ *
+ */
+
 package application;
 
 import java.io.*;
@@ -18,8 +26,18 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * The Scene3 class is  creating the third scene of the application.
+ */
 public class Scene3 {
 
+	/**
+	 *
+	 * @param stage
+	 * @param student
+	 * @param menuBar
+	 * @return
+	 */
 	public static Scene createScene3(Stage stage, Student student, MenuBar menuBar) {
 		VBox root = new VBox();
 		root.getChildren().add(menuBar);
@@ -52,6 +70,9 @@ public class Scene3 {
 		return new Scene(root, 1200, 780);
 	}
 
+	/**
+	 *  Downloads a CSV file. Prompts the user to choose a location for saving.
+	 */
 	private static void downloadCSV(Stage stage) {
 		String sourceFilePath = "src/application/StudentSchedule.csv";
 
@@ -72,7 +93,6 @@ public class Scene3 {
 		if (targetFile != null) {
 			try {
 				Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
 				System.out.println("CSV file downloaded successfully");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -82,6 +102,9 @@ public class Scene3 {
 		}
 	}
 
+	/**
+	 * Shows alert's screen.
+	 */
 	private static void showAlert(String title, String content) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle(title);

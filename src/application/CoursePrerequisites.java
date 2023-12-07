@@ -1,3 +1,7 @@
+/**
+ * Utility class for managing course prerequisites and checking whether selected courses meet the prerequisites.
+ */
+
 package application;
 
 import java.util.*;
@@ -7,10 +11,30 @@ public class CoursePrerequisites {
     private static List<String> newCourse;
     private static List<String> missingCourses;
 
+    /**
+     * Represents a prerequisite for a course, including the type (AND/OR) and a list of required courses.
+     */
+    public static class Prerequisite  {
+        String type;
+        List<String> courses;
 
+        Prerequisite(String type, List<String> courses) {
+            this.type = type;
+            this.courses = courses;
+        }
+    }
+
+    /**
+     * Maps ALL core classes found in the School of Computing & Data Science
+     * to their respective prerequisites,
+     * with types based on if all courses must be met or either,
+     * @param selectedClasses
+     */
     public CoursePrerequisites(ArrayList<String> selectedClasses) {
         adjacencyList = new HashMap<>();
         newCourse = new ArrayList<>();
+
+        // Unique classes mapped.
 
         // Computer Networking
         addPrerequisite(adjacencyList, "COMP1050", "OR", Arrays.asList("COMP1000"));
@@ -68,8 +92,9 @@ public class CoursePrerequisites {
 
         newCourse = new ArrayList<>();
 
-        for (String completedCours : selectedClasses) {
-            String[] parts = completedCours.split("\\s+", 2);
+        // Splits the course string that was originally found in src/majors and adds the course code.
+        for (String completedCourse : selectedClasses) {
+            String[] parts = completedCourse.split("\\s+", 2);
             if (parts.length >= 1) {
                 String course = parts[0];
                 newCourse.add(course);
@@ -77,23 +102,21 @@ public class CoursePrerequisites {
         }
 
         missingCourses = getMissingClasses();
-
-    }
-    public static class Prerequisite  {
-        String type;
-        List<String> courses;
-
-        Prerequisite(String type, List<String> courses) {
-            this.type = type;
-            this.courses = courses;
-        }
     }
 
+    /**
+     * Represents a prerequisite for a course, including the type (AND/OR) and a list of required courses.
+     */
     private static void addPrerequisite(Map<String, Prerequisite> adjacencyList, String course, String type, List<String> prerequisites) {
         Prerequisite prerequisite = new Prerequisite(type, prerequisites);
         adjacencyList.put(course, prerequisite);
     }
 
+    /**
+     * Checks whether the selected courses meet the prerequisites defined in the adjacency list.
+     *
+     * @return True if all prerequisites are met; false otherwise.
+     */
     public boolean checkPrerequisites() {
         System.out.println("Method ran:");
         for (String course : newCourse) {
@@ -131,6 +154,11 @@ public class CoursePrerequisites {
         return true;
     }
 
+    /**
+     * Returns a list of classes whose
+     * prerequisites are not found in
+     * the selected classes list.
+     */
     private static List<String> getMissingClasses() {
         List<String> missing = new ArrayList<>();
 
@@ -142,11 +170,13 @@ public class CoursePrerequisites {
             Prerequisite prerequisites = adjacencyList.get(course);
             boolean allPrerequisitesMet;
 
+            // Different conditions for "AND" and "OR"
             if (prerequisites.type.equals("AND")) {
                 allPrerequisitesMet = true;
                 for (String s : prerequisites.courses) {
                     System.out.println(s);
                     if (!newCourse.contains(s)) {
+                        // When "AND" condition is not met, add to list.
                         missing.add(course);
                     }
                 }
@@ -163,6 +193,7 @@ public class CoursePrerequisites {
 
             if (!allPrerequisitesMet) {
                 missing.add(course);
+                // When "OR" condition is not met, add to list.
             }
         }
 
@@ -175,9 +206,16 @@ public class CoursePrerequisites {
         return missing;
     }
 
+    /**
+     * Returns reference of missing course list.
+     *
+     */
     public List<String> getMissingCourses() { return missingCourses; }
 
+    /**
+     * Returns reference of adjacency HashMap.
+     *
+     */
     public Map<String, Prerequisite> getAdjacencyList () { return adjacencyList; }
-
 
 }
