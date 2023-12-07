@@ -67,7 +67,7 @@ public class Scene3 {
 		contentBox.getChildren().add(imageView);
 
 		root.getChildren().add(contentBox);
-		return new Scene(root, 1200, 780);
+		return new Scene(root, 1200, 880);
 	}
 
 	/**

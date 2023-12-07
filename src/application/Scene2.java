@@ -73,7 +73,7 @@ public class Scene2 {
 		layout2.setAlignment(Pos.CENTER);
 		layout.getChildren().addAll(menuBar, layout2);
 
-		return new Scene(layout, 1200, 780);
+		return new Scene(layout, 1200, 880);
 	}
 
 	private static Scanner createScanner(Student student) {
@@ -262,6 +262,7 @@ public class Scene2 {
 			// Write user's information at the top of the file
 			writer.append(String.format("Name: %s%n", student.getStudentName()));
 			writer.append(String.format("Email: %s%n", student.getEmail()));
+			writer.append(String.format("Major: %s%n", student.getMajor()));
 
 			int classIndex = 0;
             while (year < 5) {

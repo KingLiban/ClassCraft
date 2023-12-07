@@ -121,7 +121,7 @@ public class Scene1 extends Application {
 
     		VBox root = new VBox();
     		root.getChildren().addAll(menuBar, vBox);
-    		Scene scene = new Scene(root, 1200, 680);
+    		Scene scene = new Scene(root, 1200, 880);
     		stage.setScene(scene);
 
     		stage.show();
