@@ -1,44 +1,44 @@
 Year,Semester,Course
-Name: Liban Mohamed
-Email: mohamedl1@wit.edu
-Email: CyberSecurity
-1,Fall,COMP1100    INTRODUCTION TO NETWORKS
-1,Fall,COMP1200    COMPUTER ORGANIZATION
-1,Fall,ELEC2275    DIGITAL LOGIC
-1,Spring,COMP2000    DATA STRUCTURES
-1,Spring,MGMT2560    CYBERSECURITY LAW & POLICY
-1,Spring,MATH1876    CALCULUS 2A
+Name: eveb
+Email: vt4@wit.edu
+Major: Computer Science
+1,Fall,COMP1000    COMPUTER SCIENCE I
+1,Fall,MATH1776    CALCULUS 1A
+1,Fall,MATH1777    CALCULUS 1B
+1,Spring,MATH2300    DISCRETE MATHEMATICS
+1,Spring,COMP1050    COMPUTER SCIENCE II
+1,Spring,COMP1200    COMPUTER ORGANIZATION
 1,Summer,No Classes
 1,Summer,No Classes
 1,Summer,No Classes
+2,Fall,MATH1876    CALCULUS 2A
 2,Fall,MATH1877    CALCULUS 2B
-2,Fall,COMP2150    NETWORK ADMINISTRATION
-2,Fall,COMP2350    ALGORITHMS
+2,Fall,COMP2000    DATA STRUCTURES
+2,Spring,COMP2100    NETWORK PROGRAMMING
+2,Spring,COMP2650    DATABASES
 2,Spring,MATH2860    LINEAR ALGEBRA & MATRIX THEORY
-2,Spring,COMP3100    SYSTEM ADMINISTRATION
-2,Spring,COMP3400    OPERATING SYSTEMS
 2,Summer,COOP3000 Pre Co-op Work Term (Optional)
 2,Summer,COOP3000 Pre Co-op Work Term (Optional)
 2,Summer,COOP3000 Pre Co-op Work Term (Optional)
-3,Fall,COMP3500    NETWORK SECURITY
-3,Fall,COMP3550    COMPUTER SECURITY
+3,Fall,COMP2350    ALGORITHMS
+3,Fall,COMP3400    OPERATING SYSTEMS
 3,Fall,MATH2100    PROBABILITY & STATISTICS FOR ENGINEERS
 3,Spring,COOP3500 Co-op Education I(Required)
 3,Spring,COOP3500 Co-op Education I(Required)
 3,Spring,COOP3500 Co-op Education I(Required)
-3,Summer,COMP4500    OFFENSIVE SECURITY
-3,Summer,COMP5500    SENIOR PROJECT
-3,Summer,COMP4550    INCIDENT RESPONSE & BUSINESS CONTINUITY
+3,Summer,COMP3350    PROGRAMMING LANGUAGES
+3,Summer,COMP4960    SOFTWARE ENGINEERING
+3,Summer,COMP3450    PARALLEL COMPUTING AND DISTRIBUTED COMPUTING
 4,Fall,COOP4500 Co-op Education II(Required)
 4,Fall,COOP4500 Co-op Education II(Required)
 4,Fall,COOP4500 Co-op Education II(Required)
-4,Spring,Remaining Course
+4,Spring,COMP5500    SENIOR PROJECT
 4,Spring,Remaining Course
 4,Spring,Remaining Course
 4,Summer,Remaining Course
 4,Summer,Remaining Course
 4,Summer,Remaining Course
 Remaining General Elective Credits:,4
-Remaining Science Elective Credits:,8
-Remaining Humanities/Social Science Elective Credits:,20
-Remaining Major Credits:,36
+Remaining Science Elective Credits:,4
+Remaining Humanities/Social Science Elective Credits:,16
+Remaining Major Credits:,32

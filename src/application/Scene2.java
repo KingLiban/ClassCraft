@@ -46,8 +46,8 @@ public class Scene2 {
 	public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
 
 		// Create two VBox layouts for the left and right sections
-		VBox layout = new VBox(6);
-		VBox layout2 = new VBox(6);
+		VBox layout = new VBox(3);
+		VBox layout2 = new VBox(3);
 
 		// Create a Text component with a message for the user
 		Text sceneTitle = new Text("Now, kindly choose the courses you've finished and input the current credit count for each subject.");
@@ -152,7 +152,7 @@ public class Scene2 {
 						validateCredits(genElectiveCredits.getText(), 20) &&
 								validateCredits(humanElectiveCredits.getText(), 20) &&
 								validateCredits(sciElectiveCredits.getText(), 20) &&
-								validateCredits(majorElectiveCredits.getText(), 20)
+								validateCredits(majorElectiveCredits.getText(), 40)
 				) {
 					student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
 					student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));

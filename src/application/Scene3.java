@@ -1,6 +1,7 @@
 /**
  * The Scene3 class represents the third scene of a JavaFX application.
- * It displays a message to the user, indicating that a CSV file has been created successfully.
+ * It displays a message to the user, indicating that a CSV file has 
+ * been created successfully and is avaliable for download.
  *
  * @author Ibukunoluwa Folajimi, Davud Azizov, Liban Mohamed
  *
