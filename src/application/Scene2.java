@@ -1,3 +1,13 @@
+/**
+ * The Scene2 class represents the second scene of a JavaFX application .
+ * It lets the user to choose courses, input their current credit counts, and proceed to the next stage.
+ *
+ *
+ * @author Ibukunoluwa Folajimi, Davud Azizov, Liban Mohammed
+ *
+ */
+
+
 package application;
 	
 import java.io.File;
@@ -28,6 +38,8 @@ import javafx.scene.layout.VBox;
 import java.util.*;
 
 public class Scene2 {
+	
+	//declaring attributes
 	private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
 	private static TextField genElectiveCredits;
 	private static TextField humanElectiveCredits;
@@ -36,21 +48,36 @@ public class Scene2 {
 	private static CoursePrerequisites coursePrerequisites;
 
 	public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
+		
+        // Create a SplitPane to divide the scene into two sections
 		SplitPane splitPane = new SplitPane();
+		
+        // Create two VBox layouts for the left and right sections
 		VBox layout = new VBox(6);
 		VBox layout2 = new VBox(6);
+		
+        // Create a Text component with a message for the user
 		Text sceneTitle = new Text("Now, kindly choose the courses you've finished and input the current credit count for each subject.");
 		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+				
 		layout.getChildren().addAll(menuBar,sceneTitle);
+		
+        // Create ArrayLists to store selected and unselected classes
 		ArrayList<String> selectedClasses = new ArrayList<>();
 		ArrayList<String> unselectedClasses = new ArrayList<>();
+		
+        // Create a Scanner for reading course information from files
 		Scanner console = createScanner(student);
-
+        // Create checkboxes for each course and add them to the layout
 		createCheckBoxes(console, selectedClasses, unselectedClasses, layout);
 
+		
+		
+        // Create a GridPane for credit input fields and add it to the second layout
 		GridPane grid = getGridPane();
 		layout2.getChildren().add(grid);
 
+        // Create the "Next" button with its functionality
 		Button nextButton = getButton(stage, student, unselectedClasses, selectedClasses, menuBar);
 		layout2.getChildren().add(nextButton);
 		splitPane.getItems().addAll(layout,layout2);
@@ -60,6 +87,7 @@ public class Scene2 {
 	private static Scanner createScanner(Student student) {
 		File file = null;
 		try {
+	        // Create a File object based on the student's major
 			file = switch (student.getMajor()) {
 				case "Computer Science" -> new File("src/majors/CompSci.txt");
 				case "Information Technology" -> new File("src/majors/InformationTech.txt");
@@ -71,6 +99,8 @@ public class Scene2 {
 		} catch (Exception e) {
 			System.out.println("Something went wrong: " + e.getMessage());
 		}
+		
+        // Initialize a Scanner to read course information from the file
 		Scanner console = null;
 		try {
 			assert file != null;
@@ -87,10 +117,14 @@ public class Scene2 {
 			ArrayList<String> unselectedClasses,
 			VBox layout
 	) {
+		
+        // Read course names from the file and create checkboxes for each
 		while (console.hasNextLine()) {
 			String className = console.nextLine();
 			CheckBox checkBox = new CheckBox(className);
 			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+				
+                // Update selected and unselected classes based on checkbox changes
 				if (newValue) {
 					selectedClasses.add(className);
 					unselectedClasses.remove(className);
@@ -99,6 +133,7 @@ public class Scene2 {
 					unselectedClasses.add(className);
 				}
 			});
+            // Add the checkbox to the layout and to the unselected classes list
 			layout.getChildren().add(checkBox);
 			unselectedClasses.add(className);
 		}
@@ -112,13 +147,18 @@ public class Scene2 {
 			ArrayList<String> selectedClasses,
 			MenuBar menuBar
 	) {
+        // Create the "Next" button
 		Button nextButton = new Button();
 		nextButton.setText("Next");
 
+		
+        // Define the action to be taken when the button is clicked
 		nextButton.setOnAction(e -> {
+            // Validate prerequisites for selected classes
 			if (!validatePrerequisites(selectedClasses)) {
 				getMissingPrerequisitesMessage();
 			} else {
+                // Validate and set elective credits for the student
 				if (
 						validateCredits(genElectiveCredits.getText(), 20) &&
 								validateCredits(humanElectiveCredits.getText(), 20) &&

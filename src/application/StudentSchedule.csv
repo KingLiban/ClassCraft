@@ -1,24 +1,41 @@
 Year,Semester,Course
-3,Fall,COMP1000    COMPUTER SCIENCE I
-3,Fall,MATH1776    CALCULUS 1A
-3,Fall,MATH1777    CALCULUS 1B
+1,Spring,COMP2000    DATA STRUCTURES
+1,Spring,COMP2100    NETWORK PROGRAMMING
+1,Spring,COMP2650    DATABASES
+1,Summer,No Classes
+1,Summer,No Classes
+1,Summer,No Classes
+1,Fall,MATH2860    LINEAR ALGEBRA & MATRIX THEORY
+1,Fall,COMP2350    ALGORITHMS
+1,Fall,COMP3400    OPERATING SYSTEMS
+2,Spring,MATH2100    PROBABILITY & STATISTICS FOR ENGINEERS
+2,Spring,COMP3350    PROGRAMMING LANGUAGES
+2,Spring,COMP4960    SOFTWARE ENGINEERING
+2,Summer,COOP3000 Pre Co-op Work Term (Optional)
+2,Summer,COOP3000 Pre Co-op Work Term (Optional)
+2,Summer,COOP3000 Pre Co-op Work Term (Optional)
+2,Fall,COMP3450    PARALLEL COMPUTING AND DISTRIBUTED COMPUTING
+2,Fall,COMP5500    SENIOR PROJECT
+2,Fall,Remaining Course
 3,Spring,COOP3500 Co-op Education I(Required)
 3,Spring,COOP3500 Co-op Education I(Required)
 3,Spring,COOP3500 Co-op Education I(Required)
-3,Summer,MATH2300    DISCRETE MATHEMATICS
-3,Summer,COMP1050    COMPUTER SCIENCE II
-3,Summer,COMP1200    COMPUTER ORGANIZATION
+3,Summer,Remaining Course
+3,Summer,Remaining Course
+3,Summer,Remaining Course
+3,Fall,Remaining Course
+3,Fall,Remaining Course
+3,Fall,Remaining Course
+4,Spring,Remaining Course
+4,Spring,Remaining Course
+4,Spring,Remaining Course
+4,Summer,Remaining Course
+4,Summer,Remaining Course
+4,Summer,Remaining Course
 4,Fall,COOP4500 Co-op Education II(Required)
 4,Fall,COOP4500 Co-op Education II(Required)
 4,Fall,COOP4500 Co-op Education II(Required)
-4,Spring,MATH1876    CALCULUS 2A
-4,Spring,MATH1877    CALCULUS 2B
-4,Spring,COMP2000    DATA STRUCTURES
-4,Summer,COMP2100    NETWORK PROGRAMMING
-4,Summer,COMP2650    DATABASES
-4,Summer,MATH2860    LINEAR ALGEBRA & MATRIX THEORY
-Classes not listed:,[COMP2350    ALGORITHMS, COMP3400    OPERATING SYSTEMS, MATH2100    PROBABILITY & STATISTICS FOR ENGINEERS, COMP3350    PROGRAMMING LANGUAGES, COMP4960    SOFTWARE ENGINEERING, COMP3450    PARALLEL COMPUTING AND DISTRIBUTED COMPUTING, COMP5500    SENIOR PROJECT]
-Remaining General Elective Credits:,4
-Remaining Science Elective Credits:,4
-Remaining Humanities/Social Science Elective Credits:,16
-Remaining Major Credits:,32
+Remaining General Elective Credits:,0
+Remaining Science Elective Credits:,0
+Remaining Humanities/Social Science Elective Credits:,12
+Remaining Major Credits:,28
