@@ -1,20 +1,9 @@
-/**
- * The Scene2 class represents the second scene of a JavaFX application .
- * It lets the user to choose courses, input their current credit counts, and proceed to the next stage.
- *
- *
- * @author Ibukunoluwa Folajimi, Davud Azizov, Liban Mohammed
- *
- */
-
-
 package application;
-	
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
@@ -26,10 +15,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -38,8 +25,6 @@ import javafx.scene.layout.VBox;
 import java.util.*;
 
 public class Scene2 {
-	
-	//declaring attributes
 	private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
 	private static TextField genElectiveCredits;
 	private static TextField humanElectiveCredits;
@@ -48,46 +33,34 @@ public class Scene2 {
 	private static CoursePrerequisites coursePrerequisites;
 
 	public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
-		
-        // Create a SplitPane to divide the scene into two sections
-		SplitPane splitPane = new SplitPane();
-		
-        // Create two VBox layouts for the left and right sections
 		VBox layout = new VBox(6);
+
 		VBox layout2 = new VBox(6);
-		
-        // Create a Text component with a message for the user
 		Text sceneTitle = new Text("Now, kindly choose the courses you've finished and input the current credit count for each subject.");
-		sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-				
-		layout.getChildren().addAll(menuBar,sceneTitle);
-		
-        // Create ArrayLists to store selected and unselected classes
+		sceneTitle.setFont(Font.font("Helvetica", FontWeight.NORMAL, 20));
+
 		ArrayList<String> selectedClasses = new ArrayList<>();
 		ArrayList<String> unselectedClasses = new ArrayList<>();
-		
-        // Create a Scanner for reading course information from files
+
 		Scanner console = createScanner(student);
-        // Create checkboxes for each course and add them to the layout
-		createCheckBoxes(console, selectedClasses, unselectedClasses, layout);
 
-		
-		
-        // Create a GridPane for credit input fields and add it to the second layout
-		GridPane grid = getGridPane();
-		layout2.getChildren().add(grid);
-
-        // Create the "Next" button with its functionality
+		layout2.getChildren().add(sceneTitle);
+		createCheckBoxes(console, selectedClasses, unselectedClasses, layout2);
+		layout2.getChildren().add(getGridPane());
 		Button nextButton = getButton(stage, student, unselectedClasses, selectedClasses, menuBar);
+
 		layout2.getChildren().add(nextButton);
-		splitPane.getItems().addAll(layout,layout2);
-		return new Scene(splitPane, 1200, 780);
+
+		layout2.setAlignment(Pos.CENTER);
+
+		layout.getChildren().addAll(menuBar, layout2);
+
+		return new Scene(layout, 1200, 780);
 	}
 
 	private static Scanner createScanner(Student student) {
 		File file = null;
 		try {
-	        // Create a File object based on the student's major
 			file = switch (student.getMajor()) {
 				case "Computer Science" -> new File("src/majors/CompSci.txt");
 				case "Information Technology" -> new File("src/majors/InformationTech.txt");
@@ -99,8 +72,6 @@ public class Scene2 {
 		} catch (Exception e) {
 			System.out.println("Something went wrong: " + e.getMessage());
 		}
-		
-        // Initialize a Scanner to read course information from the file
 		Scanner console = null;
 		try {
 			assert file != null;
@@ -117,14 +88,10 @@ public class Scene2 {
 			ArrayList<String> unselectedClasses,
 			VBox layout
 	) {
-		
-        // Read course names from the file and create checkboxes for each
 		while (console.hasNextLine()) {
 			String className = console.nextLine();
 			CheckBox checkBox = new CheckBox(className);
 			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-				
-                // Update selected and unselected classes based on checkbox changes
 				if (newValue) {
 					selectedClasses.add(className);
 					unselectedClasses.remove(className);
@@ -133,7 +100,6 @@ public class Scene2 {
 					unselectedClasses.add(className);
 				}
 			});
-            // Add the checkbox to the layout and to the unselected classes list
 			layout.getChildren().add(checkBox);
 			unselectedClasses.add(className);
 		}
@@ -147,18 +113,13 @@ public class Scene2 {
 			ArrayList<String> selectedClasses,
 			MenuBar menuBar
 	) {
-        // Create the "Next" button
 		Button nextButton = new Button();
 		nextButton.setText("Next");
 
-		
-        // Define the action to be taken when the button is clicked
 		nextButton.setOnAction(e -> {
-            // Validate prerequisites for selected classes
 			if (!validatePrerequisites(selectedClasses)) {
 				getMissingPrerequisitesMessage();
 			} else {
-                // Validate and set elective credits for the student
 				if (
 						validateCredits(genElectiveCredits.getText(), 20) &&
 								validateCredits(humanElectiveCredits.getText(), 20) &&
@@ -170,7 +131,6 @@ public class Scene2 {
 					student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
 					student.setScienceElective(Integer.parseInt(majorElectiveCredits.getText()));
 
-					// Display confirmation dialog
 					Alert confirm = new Alert(AlertType.CONFIRMATION);
 					confirm.setTitle("Confirmation");
 					confirm.setHeaderText("Are you sure you wish to move on?");
@@ -178,14 +138,11 @@ public class Scene2 {
 
 					Optional<ButtonType> result = confirm.showAndWait();
 
-                    // Proceed to the next stage if the user clicks OK
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 						generateSchedule(student, unselectedClasses);
-						stage.setScene(Scene3.createScene3(stage, student, unselectedClasses, menuBar));
+						stage.setScene(Scene3.createScene3(stage, student, menuBar));
 					}
 				} else {
-					
-                    // Display an error dialog if elective credits are not valid
 					Alert error = new Alert(AlertType.ERROR);
 					error.setTitle("Missing classes");
 					error.setHeaderText("Please choose your classes");
@@ -197,19 +154,13 @@ public class Scene2 {
 		return nextButton;
 	}
 
-	
-	/**
-     * Creates and returns a GridPane layout for inputting current elective credits.
-     */
 	private static GridPane getGridPane() {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		
-		
-        // Add labels and text fields for different types of elective credits
+
 		Label generalElective = new Label("Current General Elective Credits:");
 		grid.add(generalElective, 0, 1);
 		genElectiveCredits = new TextField();
@@ -231,15 +182,8 @@ public class Scene2 {
 		grid.add(majorElectiveCredits, 1, 4);
 		return grid;
 	}
-	/**
-	 * Utility method for generating a student schedule
-	 * and saving it to a CSV file.
-	 *
-	 * 
-	 */
+
 	public static void generateSchedule(Student student, ArrayList<String> requiredClasses) {
-		
-	    // Define the order of semesters for scheduling
 		Collection<String> semester = new ArrayList<String>();
 
 		switch (student.getSemester()) {
@@ -259,7 +203,7 @@ public class Scene2 {
 				semester.add("Summer");
 				break;
 		}
-	    // Map student's year to an integer value
+
 		int year = switch (student.getStudentYear()) {
 			case "Freshman" -> 1;
 			case "Sophomore" -> 2;
@@ -267,22 +211,22 @@ public class Scene2 {
 			default -> 4;
 		};
 
-		
-	    // Set the CSV file path and prepare to write to the file
 		String csvFile = "src/application/StudentSchedule.csv";
 		File file = new File(csvFile);
 		file.setWritable(true);
 		try (FileWriter writer = new FileWriter(csvFile)) {
 			writer.append("Year,Semester,Course\n");
+			writer.append(String.format("Name: %s%n", student.getStudentName()));
+			writer.append(String.format("Email: %s%n", student.getEmail()));
 
 			int classIndex = 0;
             while (year < 5) {
                 Iterator<String> s = semester.iterator();
-                while (s.hasNext()) {
+
+				while (s.hasNext()) {
                     String currentSemester = s.next();
                     for (int j = 0; j < 3; j++) {
                         if (classIndex < requiredClasses.size()) {
-                            // Write course information for each semester
                             if (year == 1 && currentSemester.equals("Summer")) {
                                 writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
                             } else if (year == 2 && currentSemester.equals("Summer")) {
@@ -296,7 +240,6 @@ public class Scene2 {
                                 classIndex++;
                             }
                         } else {
-                            // Write default lines for remaining semesters if requiredClasses is 0
                             if (year == 1 && currentSemester.equals("Summer")) {
                                 writer.append(String.format("%d,%s,%s%n", year, currentSemester, "No Classes"));
                             } else if (year == 2 && currentSemester.equals("Summer")) {
@@ -313,45 +256,20 @@ public class Scene2 {
                 }
                 year++;
             }
-            
-            // If there are remaining classes not listed, include them in the CSV
-            if(classIndex<requiredClasses.size()-1) {
-            	ArrayList<String> unlistedClasses = new ArrayList<String>();
-            	while(classIndex<requiredClasses.size()) {
-            		unlistedClasses.add(requiredClasses.get(classIndex));
-            		classIndex++;
-            	}
-        		writer.append(String.format("Classes not listed:,%s%n",unlistedClasses.toString()));
-            }
-            
-            // Write remaining elective credits information
 			writer.append(String.format("Remaining General Elective Credits:,%d%n", (student.getGeneralElective() <= 8) ? 8 - student.getGeneralElective() : 0));
 			writer.append(String.format("Remaining Science Elective Credits:,%d%n", (student.getScienceElective() <= 8) ? 8 - student.getScienceElective() : 0));
 			writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective() <= 20) ? 20 - student.getHumanityElective() : 0));
 			writer.append(String.format("Remaining Major Credits:,%d%n", (student.getMajorElective() < 36) ? 36 - student.getMajorElective() : 0));
-			
-	        // Close the writer and print a success message
 			writer.close();
 			System.out.println("CSV file has been created successfully!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	/**
-     * Validates the input credits against a specified limit.
-     *
-     * @param credits The input credit value to be validated.
-     * @param limit   The upper limit for valid credits.
-     * @return        True if the credits are valid; false otherwise.
-     */
+
 	public static boolean validateCredits(String credits, int limit) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Please try again");
-		
-        // Check if the input credits are empty
 		if (credits.isEmpty()) {
 			alert.setHeaderText("No entry was made");
 			alert.setContentText("We ask that you enter the number of credits you have for all subjects");
@@ -360,7 +278,6 @@ public class Scene2 {
 		}
 		try {
 			int credit = Integer.parseInt(credits);
-	        // Check if the input credits are empty
 			if (credit < 0 || credit > limit) {
 				alert.setHeaderText("An invalid entry was made");
 				alert.setContentText("We ask that you enter integers for the credits between 0 and " + limit + " (Inclusive)");
@@ -369,27 +286,19 @@ public class Scene2 {
 			}
 			return true;
 		} catch (NumberFormatException e) {
-	        // Check if the input credits are empty
 			alert.setHeaderText("An invalid entry was made");
 			alert.setContentText("We ask that you enter integers for the credits");
 			alert.showAndWait();
 			return false;
 		}
 	}
-	/**
-     * Validates prerequisites for selected classes using a CoursePrerequisites instance.
-     *
-     * @param selectedClasses List of selected classes for validation.
-     * @return                True if prerequisites are met; false otherwise.
-     */
+
 	private static boolean validatePrerequisites(ArrayList<String> selectedClasses) {
 		coursePrerequisites = new CoursePrerequisites(selectedClasses);
 
 		return coursePrerequisites.checkPrerequisites();
 	}
-	 /**
-     * Displays a message about missing prerequisites, including course names and their prerequisites.
-     */
+
 	private static void getMissingPrerequisitesMessage() {
 		Map<String, CoursePrerequisites.Prerequisite> adjacencyList = coursePrerequisites.getAdjacencyList();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -397,20 +306,27 @@ public class Scene2 {
 
 
 		for (String courseName : adjacencyList.keySet()) {
-			if (coursePrerequisites.getClasses().contains(courseName)) {
+			if (coursePrerequisites.getMissingCourses().contains(courseName)) {
 				CoursePrerequisites.Prerequisite prerequisite = adjacencyList.get(courseName);
 
 				stringBuilder
 						.append("Course name: ").append(courseName)
 						.append(", Prerequisites: ");
-                // Append prerequisites or indicate if none
+
 				if (prerequisite.courses.isEmpty()) {
 					stringBuilder.append("None");
 				} else {
 					for (int i = 0; i < prerequisite.courses.size(); i++) {
 						stringBuilder.append(prerequisite.courses.get(i));
+
 						if (i < prerequisite.courses.size() - 1) {
-							stringBuilder.append(", ");
+							if ("AND".equals(prerequisite.type)) {
+								stringBuilder.append(" and ");
+							} else if ("OR".equals(prerequisite.type)) {
+								stringBuilder.append(" or ");
+							} else {
+								stringBuilder.append(", ");
+							}
 						}
 					}
 				}
@@ -421,15 +337,18 @@ public class Scene2 {
 
 		String result = stringBuilder.toString();
 		System.out.println(result);
-		
+
 		Alert confirm = new Alert(AlertType.ERROR);
 		confirm.setTitle("Missing Prerequisites");
 		confirm.setHeaderText("Some prerequisites are missing.");
 		System.out.println("Missing prereq: " + stringBuilder.toString());
+		for (String s: coursePrerequisites.getMissingCourses()) {
+			System.out.println(s);
+		}
 		confirm.setContentText(stringBuilder.toString());
 		confirm.showAndWait();
 
 	}
 }
-    
+
 
