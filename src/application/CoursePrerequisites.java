@@ -7,6 +7,7 @@ package application;
 import java.util.*;
 
 public class CoursePrerequisites {
+    // Declare fields for storing the adjacency list, selected new courses, and missing courses
     private static Map<String, Prerequisite> adjacencyList = null;
     private static List<String> newCourse;
     private static List<String> missingCourses;
@@ -15,9 +16,10 @@ public class CoursePrerequisites {
      * Represents a prerequisite for a course, including the type (AND/OR) and a list of required courses.
      */
     public static class Prerequisite  {
-        String type;
+        // Declaration of fields for the type of relationship and the list of courses
+    	String type;
         List<String> courses;
-
+        // Constructor initializing the type and list of courses for the prerequisite
         Prerequisite(String type, List<String> courses) {
             this.type = type;
             this.courses = courses;
@@ -25,10 +27,9 @@ public class CoursePrerequisites {
     }
 
     /**
-     * Maps ALL core classes found in the School of Computing & Data Science
-     * to their respective prerequisites,
-     * with types based on if all courses must be met or either,
-     * @param selectedClasses
+     * Constructor to create an instance of CoursePrerequisites with selected classes.
+     * Initializes the adjacency list and populates it with predefined course prerequisites
+     * @param selectedClasses List of selected classes.
      */
     public CoursePrerequisites(ArrayList<String> selectedClasses) {
         adjacencyList = new HashMap<>();
@@ -119,39 +120,47 @@ public class CoursePrerequisites {
      */
     public boolean checkPrerequisites() {
         System.out.println("Method ran:");
+        // Iterate through each course in the selected courses
         for (String course : newCourse) {
+        	//move to the next course if the course is not found in the adjacency list
             if (!adjacencyList.containsKey(course)) {
                 continue;
             }
-
+            // Get the prerequisites for the current course
             Prerequisite prerequisites = adjacencyList.get(course);
+            //Store the boolean for whether all prerequisites were met or not
             boolean allPrerequisitesMet;
-
+            // Checks the type of prerequisite relationship (AND/OR)
             if (prerequisites.type.equals("AND")) {
+            	 //For 'AND' type, initialize allPrerequisitesMet to true
                 allPrerequisitesMet = true;
                 for (String s : prerequisites.courses) {
                     System.out.println(s);
+                    // return false if any prerequisite course is not found in the selected courses
                     if (!newCourse.contains(s)) {
                         return false;
                     }
                 }
             } else {
+            	// For 'OR' type, initially assume no prerequisites are met
                 allPrerequisitesMet = false;
                 for (String s : prerequisites.courses) {
                     System.out.println(s);
+                    // If at least one prerequisite course is found in the selected courses, set the allPrerequisitesMet to true and stop
+                    //the iteration
                     if (newCourse.contains(s)) {
                         allPrerequisitesMet = true;
                         break;
                     }
                 }
             }
-
+            // If, by the end, not all prerequisites for the current course are met, return false
             if (!allPrerequisitesMet) {
                 return false;
             }
         }
 
-        return true;
+        return true;// return true if all prerequisites for each course are met
     }
 
     /**
@@ -161,60 +170,64 @@ public class CoursePrerequisites {
      */
     private static List<String> getMissingClasses() {
         List<String> missing = new ArrayList<>();
-
+        // Iterate through each course in the selected courses
         for (String course : newCourse) {
+        	// move to the next course when the course is not found in the adjacency list
             if (!adjacencyList.containsKey(course)) {
                 continue;
             }
-
+            // Get the prerequisites for the current course
             Prerequisite prerequisites = adjacencyList.get(course);
             boolean allPrerequisitesMet;
 
-            // Different conditions for "AND" and "OR"
+            // Checks the type of prerequisite relationship (AND/OR)
             if (prerequisites.type.equals("AND")) {
-                allPrerequisitesMet = true;
+                allPrerequisitesMet = true;//For 'AND' type, initialize allPrerequisitesMet to true
                 for (String s : prerequisites.courses) {
                     System.out.println(s);
                     if (!newCourse.contains(s)) {
-                        // When "AND" condition is not met, add to list.
+                        // When "AND" condition is not met, add to missing list.
                         missing.add(course);
                     }
                 }
             } else {
+            	// For 'OR' type, initially assume no prerequisites are met
                 allPrerequisitesMet = false;
                 for (String s : prerequisites.courses) {
                     System.out.println(s);
+                    // If one prerequisite course is found in the selected courses, set allPrerequisitesMet to true and end the loop
                     if (newCourse.contains(s)) {
                         allPrerequisitesMet = true;
                         break;
                     }
                 }
             }
-
+            // If not all prerequisites for the current course are met, add it to the 'missing' list
             if (!allPrerequisitesMet) {
                 missing.add(course);
-                // When "OR" condition is not met, add to list.
             }
         }
-
+        // Print the list of missing courses for checking of errors
         System.out.println("Missing classes:");
             for (String s : missing) {
                 System.out.println("We ran one time");
                 System.out.println(s);
             }
 
-        return missing;
+        return missing;// Return the list of courses with unmet prerequisites
     }
 
     /**
-     * Returns reference of missing course list.
+     * Returns the reference for the list of courses that have unmet prerequisites.
      *
+     * @return List of courses with unmet prerequisites
      */
     public List<String> getMissingCourses() { return missingCourses; }
 
     /**
-     * Returns reference of adjacency HashMap.
+     * Returns the reference of adjacency list containing course prerequisites.
      *
+     * @return Map representing the adjacency list with course prerequisites
      */
     public Map<String, Prerequisite> getAdjacencyList () { return adjacencyList; }
 

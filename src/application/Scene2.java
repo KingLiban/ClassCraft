@@ -35,14 +35,24 @@ import java.util.*;
 
 public class Scene2 {
 
-	// Declaring attributes
+	// Declaring confirmation message and the text field the user will enter 
+	//information
 	private static final String CONFIRM_ENTRIES = "Know that you won't be able to return to this page. If you are ready to move on, click 'OK', otherwise, click 'cancel' and look over your entries.";
 	private static TextField genElectiveCredits;
 	private static TextField humanElectiveCredits;
 	private static TextField sciElectiveCredits;
 	private static TextField majorElectiveCredits;
+	//Declare Object containing information about the prerequisites for a course
 	private static CoursePrerequisites coursePrerequisites;
-
+	/**
+	 * Creates and returns Scene 2 for the application where the user can select courses
+	 * they have completed and enter the credits for certain electives
+	 *
+	 * @param stage    The primary stage of the application
+	 * @param student  The student object containing user information
+	 * @param menuBar  The menu bar to be displayed in the scene
+	 * @return         The created Scene 3 for the application
+	 */
 	public static Scene createScene2(Stage stage, Student student, MenuBar menuBar) {
 
 		// Create two VBox layouts for the left and right sections
@@ -75,7 +85,12 @@ public class Scene2 {
 
 		return new Scene(layout, 1200, 880);
 	}
-
+	/**
+	 * Creates a Scanner object to read course information from a file based on the student's major.
+	 *
+	 * @param student The Student object containing major information
+	 * @return Scanner object initialized to read course information from the respective file
+	 */
 	private static Scanner createScanner(Student student) {
 		File file = null;
 		try {
@@ -95,14 +110,23 @@ public class Scene2 {
 		// Initialize a Scanner to read course information from the file
 		Scanner console = null;
 		try {
+			// Ensure the file object is not null before creating a Scanner
 			assert file != null;
 			console = new Scanner(file);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-		return console;
+		return console;// Return the initialized Scanner object
 	}
-
+	/**
+	 * Reads course names from a Scanner and creates checkboxes for each course.
+	 * Allows users to select/deselect courses, updating corresponding lists and UI layout.
+	 *
+	 * @param console          Scanner object used to read course names from a file
+	 * @param selectedClasses  List to store selected classes
+	 * @param unselectedClasses List to store unselected classes
+	 * @param layout           VBox layout to which checkboxes are added
+	 */
 	private static void createCheckBoxes(
 			Scanner console,
 			ArrayList<String> selectedClasses,
@@ -113,25 +137,33 @@ public class Scene2 {
 		// Read course names from the file and create checkboxes for each
 		while (console.hasNextLine()) {
 			String className = console.nextLine();
-			CheckBox checkBox = new CheckBox(className);
-			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-
+			CheckBox checkBox = new CheckBox(className);// Create a checkbox for the course name
+			checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {// Add a listener to the checkbox for selection changes
 				// Update selected and unselected classes based on checkbox changes
 				if (newValue) {
-					selectedClasses.add(className);
-					unselectedClasses.remove(className);
+					selectedClasses.add(className);// Add to selected classes if checkbox is selected
+					unselectedClasses.remove(className);// Remove from unselected classes
 				} else {
-					selectedClasses.remove(className);
-					unselectedClasses.add(className);
+					selectedClasses.remove(className);// Remove from selected classes if checkbox is deselected
+					unselectedClasses.add(className);// Add to unselected classes
 				}
 			});
 			// Add the checkbox to the layout and to the unselected classes list
 			layout.getChildren().add(checkBox);
 			unselectedClasses.add(className);
 		}
-		console.close();
+		console.close();// Close the scanner after reading
 	}
-
+	/**
+	 * Creates a "Next" button with action handling for validation and navigation to the next stage.
+	 *
+	 * @param stage              The current stage of the application
+	 * @param student            The Student object containing student information
+	 * @param unselectedClasses  List of unselected classes
+	 * @param selectedClasses    List of selected classes
+	 * @param menuBar            The MenuBar in the application
+	 * @return Next Button with event handling for validation and scene navigation
+	 */
 	private static Button getButton(
 			Stage stage,
 			Student student,
@@ -139,21 +171,23 @@ public class Scene2 {
 			ArrayList<String> selectedClasses,
 			MenuBar menuBar
 	) {
+		//create a 'Next' button
 		Button nextButton = new Button();
 		nextButton.setText("Next");
 
-		// Define the action to be taken when the button is clicked
+		// Define the action to be taken when the 'Next' button is clicked
 		nextButton.setOnAction(e -> {
 			if (!validatePrerequisites(selectedClasses)) {
 				getMissingPrerequisitesMessage();
 			} else {
-				// Validate and set elective credits for the student
+				// Validate elective credits for the student
 				if (
 						validateCredits(genElectiveCredits.getText(), 20) &&
 								validateCredits(humanElectiveCredits.getText(), 20) &&
 								validateCredits(sciElectiveCredits.getText(), 20) &&
 								validateCredits(majorElectiveCredits.getText(), 40)
 				) {
+					//set elective credits for the student
 					student.setGeneralElective(Integer.parseInt(genElectiveCredits.getText()));
 					student.setHumanityElective(Integer.parseInt(humanElectiveCredits.getText()));
 					student.setMajorElective(Integer.parseInt(sciElectiveCredits.getText()));
@@ -167,7 +201,7 @@ public class Scene2 {
 
 					Optional<ButtonType> result = confirm.showAndWait();
 
-					// Proceed to the next stage if the user clicks OK
+					// Proceed to the next scene if the user clicks OK
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 						generateSchedule(student, unselectedClasses);
 						stage.setScene(Scene3.createScene3(stage, student, menuBar));
@@ -182,13 +216,16 @@ public class Scene2 {
 			}
 
 		});
-		return nextButton;
+		return nextButton;// Return the created "Next" button with event handling
 	}
 
 	/**
-	 * Creates and returns a GridPane layout for inputting current elective credits.
+	 * Creates a GridPane layout containing labels and text fields for elective credits.
+	 *
+	 * @return GridPane layout containing labels and text fields for elective credits
 	 */
 	private static GridPane getGridPane() {
+		//Create and set components of GridPane
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
@@ -215,18 +252,18 @@ public class Scene2 {
 		grid.add(majorElective, 0, 4);
 		majorElectiveCredits = new TextField();
 		grid.add(majorElectiveCredits, 1, 4);
-		return grid;
+		return grid;// Return the created GridPane layout
 	}
 
 	/**
 	 * Utility method for generating a student schedule
 	 * and saving it to a CSV file.
-	 *
+	 * @param student         The Student object containing student information
+	 * @param requiredClasses List of required classes
 	 */
 	public static void generateSchedule(Student student, ArrayList<String> requiredClasses) {
 		Collection<String> semester = new ArrayList<String>();
-
-		// Define the order of semesters for scheduling
+		// Define the order of semesters for scheduling based on student information
 		switch (student.getSemester()) {
 			case "Summer":
 				semester.add("Summer");
@@ -244,7 +281,6 @@ public class Scene2 {
 				semester.add("Summer");
 				break;
 		}
-
 		// Map student's year to an integer value
 		int year = switch (student.getStudentYear()) {
 			case "Freshman" -> 1;
@@ -252,25 +288,27 @@ public class Scene2 {
 			case "Junior" -> 3;
 			default -> 4;
 		};
-
 		// Set the CSV file path and prepare to write to the file
 		String csvFile = "src/application/StudentSchedule.csv";
 		File file = new File(csvFile);
 		file.setWritable(true);
 		try (FileWriter writer = new FileWriter(csvFile)) {
+			//write headers for the file
 			writer.append("Year,Semester,Course\n");
 			// Write user's information at the top of the file
 			writer.append(String.format("Name: %s%n", student.getStudentName()));
 			writer.append(String.format("Email: %s%n", student.getEmail()));
 			writer.append(String.format("Major: %s%n", student.getMajor()));
-
+			//int to keep track of the elements in requiredClasses
 			int classIndex = 0;
             while (year < 5) {
+            	//Iterator to iterate through each semester
                 Iterator<String> s = semester.iterator();
 
 				while (s.hasNext()) {
+					//store the semester as a 'String'
                     String currentSemester = s.next();
-                    for (int j = 0; j < 3; j++) {
+                    for (int j = 0; j < 3; j++) {//controls how many classes for each semester
                         if (classIndex < requiredClasses.size()) {
 							// Write course information for each semester
 							if (year == 1 && currentSemester.equals("Summer")) {
@@ -283,6 +321,7 @@ public class Scene2 {
                                 writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
                             } else {
                                 writer.append(String.format("%d,%s,%s%n", year, currentSemester, requiredClasses.get(classIndex)));
+                                //classIndex Increment by 1 to move to the next required class
                                 classIndex++;
                             }
                         } else {
@@ -296,11 +335,12 @@ public class Scene2 {
                             } else if (year == 4 && currentSemester.equals("Fall")) {
                                 writer.append(String.format("%d,%s,%s%n", year, currentSemester, "COOP4500 Co-op Education II(Required)"));
                             } else {
-                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "Remaining Course"));
+                                writer.append(String.format("%d,%s,%s%n", year, currentSemester, "Required Elective"));
                             }
                         }
                     }
                 }
+				//increment year by 1 to simulate the completion of a year in the school
                 year++;
             }
 
@@ -310,6 +350,7 @@ public class Scene2 {
 			writer.append(String.format("Remaining Humanities/Social Science Elective Credits:,%d%n", (student.getHumanityElective() <= 20) ? 20 - student.getHumanityElective() : 0));
 			writer.append(String.format("Remaining Major Credits:,%d%n", (student.getMajorElective() < 36) ? 36 - student.getMajorElective() : 0));
 			writer.close();
+			//message in console acknowledging the successful creation of the csv file
 			System.out.println("CSV file has been created successfully!");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -319,12 +360,16 @@ public class Scene2 {
 	/**
 	 * Validates the input credits against a specified limit.
 	 *
+	 * @param credits The input credits as a String
+	 * @param limit   The upper limit for credits
+	 * @return True if the input credits are valid within the limit, otherwise false
 	 */
 	public static boolean validateCredits(String credits, int limit) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Please try again");
 		// Check if the input credits are empty
 		if (credits.isEmpty()) {
+			//Displays related alert
 			alert.setHeaderText("No entry was made");
 			alert.setContentText("We ask that you enter the number of credits you have for all subjects");
 			alert.showAndWait();
@@ -332,8 +377,9 @@ public class Scene2 {
 		}
 		try {
 			int credit = Integer.parseInt(credits);
-			// Check if the input credits are empty
+			// Check if the input credits are beyond a set bound
 			if (credit < 0 || credit > limit) {
+				//Displays related alert
 				alert.setHeaderText("An invalid entry was made");
 				alert.setContentText("We ask that you enter integers for the credits between 0 and " + limit + " (Inclusive)");
 				alert.showAndWait();
@@ -341,7 +387,7 @@ public class Scene2 {
 			}
 			return true;
 		} catch (NumberFormatException e) {
-			// Check if the input credits are empty
+			//Display an alert for when integers are not provided
 			alert.setHeaderText("An invalid entry was made");
 			alert.setContentText("We ask that you enter integers for the credits");
 			alert.showAndWait();
@@ -351,43 +397,51 @@ public class Scene2 {
 
 	/**
 	 * Validates prerequisites for selected classes using a CoursePrerequisites instance.
-	 */
-	private static boolean validatePrerequisites(ArrayList<String> selectedClasses) {
-		coursePrerequisites = new CoursePrerequisites(selectedClasses);
-
-		return coursePrerequisites.checkPrerequisites();
+	 *
+	 * @param selectedClasses List of selected classes
+	 * @return True if all prerequisites for selected classes are met, otherwise false
+	 */	private static boolean validatePrerequisites(ArrayList<String> selectedClasses) {
+		 // Create an instance of CoursePrerequisites with the selected classes
+		 coursePrerequisites = new CoursePrerequisites(selectedClasses);
+		return coursePrerequisites.checkPrerequisites();// Check if all prerequisites for selected classes are satisfied
 	}
 
-	/**
-	 * Displays a message about missing prerequisites, including course names and their prerequisites.
-	 */
+	 /**
+	  * Generates and displays an alert for missing prerequisites.
+	  */
 	private static void getMissingPrerequisitesMessage() {
+		// gets the adjacency list and missing courses from CoursePrerequisites
 		Map<String, CoursePrerequisites.Prerequisite> adjacencyList = coursePrerequisites.getAdjacencyList();
+		// Create a StringBuilder to build the message for when prerequisites are missing
 		StringBuilder stringBuilder = new StringBuilder();
 
 
-
+	    // Iterate through the courses in the adjacency list
 		for (String courseName : adjacencyList.keySet()) {
+			// Check if the current course is among the missing prerequisites
 			if (coursePrerequisites.getMissingCourses().contains(courseName)) {
+			    // Get the prerequisite details for the current course
 				CoursePrerequisites.Prerequisite prerequisite = adjacencyList.get(courseName);
-
+				// Build the message for the missing prerequisites
 				stringBuilder
 						.append("Course name: ").append(courseName)
 						.append(", Prerequisites: ");
-
+				// Append prerequisites or indicate if none exist
 				if (prerequisite.courses.isEmpty()) {
 					stringBuilder.append("None");
 				} else {
+					// Loop through the prerequisite courses
 					for (int i = 0; i < prerequisite.courses.size(); i++) {
 						stringBuilder.append(prerequisite.courses.get(i));
-						// Append prerequisites or indicate if none
+						// Check if there are more prerequisites to append
 						if (i < prerequisite.courses.size() - 1) {
+							// Check the type of prerequisite logic ('AND', 'OR', or default to comma)
 							if ("AND".equals(prerequisite.type)) {
-								stringBuilder.append(" and ");
+								stringBuilder.append(" and ");// change 'and' for 'AND' logic
 							} else if ("OR".equals(prerequisite.type)) {
-								stringBuilder.append(" or ");
+								stringBuilder.append(" or ");// change 'or' for 'OR' logic
 							} else {
-								stringBuilder.append(", ");
+								stringBuilder.append(", ");// uses comma if logic isn't specified
 							}
 						}
 					}
@@ -396,10 +450,10 @@ public class Scene2 {
 				stringBuilder.append("\n");
 			}
 		}
-
+	    // Convert the StringBuilder content to a string
 		String result = stringBuilder.toString();
-		System.out.println(result);
-
+		System.out.println(result);// Print the missing prerequisites information to the console(for checking)
+		// Create an alert to display missing prerequisites
 		Alert confirm = new Alert(AlertType.ERROR);
 		confirm.setTitle("Missing Prerequisites");
 		confirm.setHeaderText("Some prerequisites are missing.");
@@ -407,8 +461,8 @@ public class Scene2 {
 		for (String s: coursePrerequisites.getMissingCourses()) {
 			System.out.println(s);
 		}
-		confirm.setContentText(stringBuilder.toString());
-		confirm.showAndWait();
+		confirm.setContentText(stringBuilder.toString());// Set the content of the alert to the missing prerequisites
+		confirm.showAndWait();// Display the alert to the user
 
 	}
 }

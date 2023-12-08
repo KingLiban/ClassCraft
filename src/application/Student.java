@@ -4,8 +4,8 @@ package application;
  * Represents a student with basic information such as name, semester, year, email, and major,
  * as well as elective credit information.
  */
-
 public class Student {
+	//Declare all necessary information of the student 
 	private String name;
 	private String semester;
 	private String year;
