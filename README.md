@@ -21,16 +21,16 @@ Course Scheduler is a Java-based desktop application developed using Java and Ja
 ## Screenshots
 
 ### Welcome Page
-![Welcome Page](img.png)
+![Welcome Page](src/media/img.png)
 
 ### Course Selection
-![Course Selection](img_1.png)
+![Course Selection](src/media/img_1.png)
 
 ### CSV Download Screen
-![CSV Download Screen](img_2.png)
+![CSV Download Screen](src/media/img_2.png)
 
 ### CSV Format
-![CSV Format](img_3.png)
+![CSV Format](src/media/img_3.png)
 
 ## How to Use
 
