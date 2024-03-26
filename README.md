@@ -1,8 +1,8 @@
-# Course Scheduler
+# ClassCraft
 
 ## Overview
 
-Course Scheduler is a Java-based desktop application developed using Java and JavaFX. The project aims to provide a user-friendly tool for Wentworth students and academic advisors to efficiently schedule courses, simplifying the process and ensuring accurate planning. 
+Welcome to ClassCraft, a Java-based desktop application developed using Java and JavaFX. The project aims to provide a user-friendly tool for Wentworth students and academic advisors to efficiently schedule courses, simplifying the process and ensuring accurate planning. 
 
 ## Features
 
